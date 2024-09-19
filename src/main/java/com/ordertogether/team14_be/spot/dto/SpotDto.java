@@ -1,6 +1,6 @@
-package com.ordertogether.team14_be.DTO;
+package com.ordertogether.team14_be.spot.dto;
 
-import com.ordertogether.team14_be.Entity.Spot;
+import com.ordertogether.team14_be.spot.entity.Spot;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,6 @@ public class SpotDto {
     private BigDecimal lat;
     @Column(precision = 11, scale = 8)
     private BigDecimal lng;
-    private MemberDto memberDto;
     private String category;
     private String store_name;
     private int minimum_order_amount;
@@ -32,7 +31,6 @@ public class SpotDto {
                 .id(id)
                 .lat(lat)
                 .lng(lng)
-                .member(memberDto.toEntity())
                 .category(category)
                 .store_name(store_name)
                 .minimum_order_amount(minimum_order_amount)

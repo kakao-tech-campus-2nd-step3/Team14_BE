@@ -1,4 +1,4 @@
-package com.ordertogether.team14_be.Entity;
+package com.ordertogether.team14_be.spot.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,9 +17,6 @@ public class Spot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY) // ERD 설계서대로 수정 필요 (ManyToMany로 할 것인지, 양쪽에서 ManyToOne으로 중간 테이블을 볼 것인지)
-    private Member member;
 
     @Column(precision = 10, scale = 8)
     private BigDecimal lat;

@@ -1,9 +1,8 @@
-package com.ordertogether.team14_be.Service;
+package com.ordertogether.team14_be.spot.service;
 
-import com.ordertogether.team14_be.DTO.MemberDto;
-import com.ordertogether.team14_be.DTO.SpotDto;
-import com.ordertogether.team14_be.Entity.Spot;
-import com.ordertogether.team14_be.Repository.SpotRepository;
+import com.ordertogether.team14_be.spot.dto.SpotDto;
+import com.ordertogether.team14_be.spot.entity.Spot;
+import com.ordertogether.team14_be.spot.repository.SpotRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,10 @@ import java.util.stream.Collectors;
 public class SpotService {
 
     private final SpotRepository spotRepository;
-    private final MemberService memberService;
 
     @Autowired
     public SpotService(SpotRepository spotRepository, MemberService memberService) {
         this.spotRepository = spotRepository;
-        this.memberService = memberService;
     }
 
     //Spot 전체 조회하기
@@ -55,13 +52,11 @@ public class SpotService {
     //Service Layer에서 toDto만들어서 매핑시키기
     public SpotDto toDto(Spot spotInStream) {
         Spot spot = spotRepository.findById(spotInStream.getId()).orElseThrow(() -> new EntityNotFoundException("Spot not found"));
-        MemberDto memberDto = memberService.getMemberDto(spot.getMember().getId());
 
         return SpotDto.builder()
                 .id(spot.getId())
                 .lat(spot.getLat())
                 .lng(spot.getLng())
-                .memberDto(memberDto)
                 .category(spot.getCategory())
                 .store_name(spot.getStore_name())
                 .minimum_order_amount(spot.getMinimum_order_amount())

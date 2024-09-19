@@ -1,6 +1,6 @@
-package com.ordertogether.team14_be.Repository;
+package com.ordertogether.team14_be.spot.repository;
 
-import com.ordertogether.team14_be.Entity.Spot;
+import com.ordertogether.team14_be.spot.entity.Spot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

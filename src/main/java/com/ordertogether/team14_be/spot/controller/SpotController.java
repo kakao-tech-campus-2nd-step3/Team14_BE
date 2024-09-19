@@ -1,7 +1,7 @@
-package com.ordertogether.team14_be.Controller;
+package com.ordertogether.team14_be.spot.controller;
 
-import com.ordertogether.team14_be.DTO.SpotDto;
-import com.ordertogether.team14_be.Service.SpotService;
+import com.ordertogether.team14_be.spot.dto.SpotDto;
+import com.ordertogether.team14_be.spot.service.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
