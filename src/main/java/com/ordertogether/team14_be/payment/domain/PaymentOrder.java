@@ -27,6 +27,9 @@ public class PaymentOrder extends BaseEntity {
   private Long sellerId; // 판매자 식별자
 
   @ManyToOne(fetch = FetchType.LAZY)
+  private PaymentEvent paymentEvent;
+
+  @ManyToOne(fetch = FetchType.LAZY)
   private Product productId;
 
   @Column(nullable = false)
