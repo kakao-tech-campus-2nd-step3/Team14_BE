@@ -32,6 +32,7 @@ public class PaymentOrder extends BaseEntity {
   @Column(nullable = false)
   private String orderId;
 
+  @Column(precision = 10, scale = 2)
   private BigDecimal amount; // 결제 금액
 
   @Enumerated(EnumType.STRING)
