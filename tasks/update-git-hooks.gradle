@@ -1,0 +1,7 @@
+//pre-commit 스크립트 실행 권한 부여
+tasks.register('updateGitHooks', Copy) {
+    from './scripts/pre-commit'
+    into './.git/hooks'
+    fileMode 0775
+}
+compileJava.dependsOn('updateGitHooks')
