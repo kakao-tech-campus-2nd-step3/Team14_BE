@@ -1,8 +1,16 @@
+buildscript {
+    ext {
+        spring_boot_version = '3.3.3'
+        spring_dependency_management_version = '1.1.6'
+        spotless_version = '6.25.0'
+    }
+}
+
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.3'
-    id 'io.spring.dependency-management' version '1.1.6'
-    id "com.diffplug.spotless" version '6.25.0'
+    id 'org.springframework.boot' version "${spring_boot_version}"
+    id 'io.spring.dependency-management' version "${spring_dependency_management_version}"
+    id "com.diffplug.spotless" version "${spotless_version}"
 }
 
 group = 'com.ordertogether'
@@ -51,11 +59,8 @@ dependencies {
 
 spotless {
     java {
-        importOrder()
-        indentWithTabs(2)
-        indentWithSpaces(4)
-        removeUnusedImports()
         googleJavaFormat()
+        indentWithTabs(2)
         trimTrailingWhitespace()
         endWithNewline()
     }
