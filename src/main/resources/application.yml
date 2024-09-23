@@ -1,0 +1,34 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    username: sa
+    url: jdbc:h2:mem:test;MODE=MYSQL;DB_CLOSE_DELAY=-1
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  hibernate:
+    hbm2ddl:
+      auto: update
+
+kakao:
+  client-id: ${KAKAO_CLIENT_ID}
+  redirect-url: ${KAKAO_REDIRECT_URL}
+
+  auth:
+    token:
+      url: ${KAKAO_AUTH_TOKEN_URL}
+
+  user:
+    api:
+      url: ${KAKAO_USER_API_URL}
