@@ -1,10 +1,7 @@
-package com.ordertogether.team14_be.payment.domain;
+package com.ordertogether.team14_be.common.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -24,17 +21,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Getter
-public abstract class BaseEntity {
+public abstract class BaseTimeEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+	@Column(nullable = false, updatable = false)
+	@CreatedDate
+	private LocalDateTime createdAt;
 
-  @Column(nullable = false, updatable = false)
-  @CreatedDate
-  private LocalDateTime createdAt;
-
-  @Column(nullable = false)
-  @LastModifiedDate
-  private LocalDateTime updatedAt;
+	@Column(nullable = false)
+	@LastModifiedDate
+	private LocalDateTime modifiedAt;
 }
