@@ -66,7 +66,7 @@ public class Member {
 		this.email = email;
 	}
 
-	public static Member createMember(String email) {
+	public static Member from(String email) {
 		Member member = new Member();
 		member.setEmail(email); // 이메일 설정
 		return member;

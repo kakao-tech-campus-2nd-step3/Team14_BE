@@ -17,7 +17,7 @@ public class MemberService {
 						.findByEmail(email)
 						.orElseGet(
 								() -> {
-									Member newMember = Member.createMember(email);
+									Member newMember = Member.from(email);
 									return memberRepository.saveAndFlush(newMember);
 								});
 	}
