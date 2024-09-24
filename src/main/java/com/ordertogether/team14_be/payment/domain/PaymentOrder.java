@@ -34,8 +34,8 @@ public class PaymentOrder extends BaseTimeEntity {
 	@Column(nullable = false)
 	private Long sellerId; // 판매자 식별자
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Product productId;
+	@Column(nullable = false)
+	private Long productId;
 
 	@Column(nullable = false)
 	private String orderId;
