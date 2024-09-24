@@ -3,6 +3,7 @@ buildscript {
         spring_boot_version = '3.3.3'
         spring_dependency_management_version = '1.1.6'
         spotless_version = '6.25.0'
+        jjwt_version = '0.11.5'
     }
 }
 
@@ -36,7 +37,7 @@ dependencies {
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation "io.jsonwebtoken:jjwt-api:${jjwt_version}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.springframework.security:spring-security-test'
@@ -54,8 +55,8 @@ dependencies {
 
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwt_version}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwt_version}"
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
