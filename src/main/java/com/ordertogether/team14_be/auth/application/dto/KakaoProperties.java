@@ -1,10 +1,8 @@
 package com.ordertogether.team14_be.auth.application.dto;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.util.LinkedMultiValueMap;
 
-@ConfigurationPropertiesScan
 @ConfigurationProperties(prefix = "kakao")
 public record KakaoProperties(String clientId, String redirectUrl) {
 	public LinkedMultiValueMap<String, String> createBody(String code) {
