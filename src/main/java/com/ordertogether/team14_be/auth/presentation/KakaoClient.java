@@ -5,6 +5,7 @@ import com.ordertogether.team14_be.auth.application.dto.KakaoProperties;
 import com.ordertogether.team14_be.auth.application.dto.KakaoUserInfo;
 import java.net.URI;
 import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,7 +16,7 @@ import org.springframework.web.client.RestClient;
 @Component
 public class KakaoClient {
 
-	private final RestClient restClient;
+	@Autowired private final RestClient restClient;
 	private final KakaoProperties kakaoProperties;
 
 	public KakaoClient(KakaoProperties kakaoProperties) {
