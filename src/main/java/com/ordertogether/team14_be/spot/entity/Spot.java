@@ -12,25 +12,31 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Table(indexes = {@Index(name = "idx_lat_lng", columnList = "lat, lng")})
 public class Spot {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(precision = 10, scale = 8)
-	private BigDecimal lat;
+  @Column(precision = 10, scale = 8)
+  private BigDecimal lat;
 
-	@Column(precision = 11, scale = 8)
-	private BigDecimal lng;
+  @Column(precision = 11, scale = 8)
+  private BigDecimal lng;
 
-	private String category;
-	private String store_name;
-	private Integer minimum_order_amount;
+  private String category;
+  private String store_name;
+  private Integer minimum_order_amount;
 
-	@Lob
-	@Column(columnDefinition = "MEDIUMTEXT")
-	private String together_order_link;
+  @Lob
+  @Column(columnDefinition = "MEDIUMTEXT")
+  private String together_order_link;
 
-	private String pick_up_location;
-	private String delivery_status;
+  private String pick_up_location;
+  private String delivery_status;
+  @Builder.Default private Boolean isDeleted = false;
+
+  public void setDeleted(boolean isDeleted) {
+    this.isDeleted = isDeleted;
+  }
 }
