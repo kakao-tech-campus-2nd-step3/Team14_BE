@@ -21,11 +21,11 @@ public class SpotDto {
 	private BigDecimal lng;
 
 	private Category category;
-	private String store_name;
-	private int minimum_order_amount;
-	private String together_order_link;
-	private String pick_up_location;
-	private String delivery_status;
+	private String storeName;
+	private int minimumOrderAmount;
+	private String togetherOrderLink;
+	private String pickUpLocation;
+	private String deliveryStatus;
 	private boolean isDeleted;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;
@@ -38,11 +38,11 @@ public class SpotDto {
 				.lat(lat)
 				.lng(lng)
 				.category(category)
-				.store_name(store_name)
-				.minimum_order_amount(minimum_order_amount)
-				.together_order_link(together_order_link)
-				.pick_up_location(pick_up_location)
-				.delivery_status(delivery_status)
+				.storeName(storeName)
+				.minimumOrderAmount(minimumOrderAmount)
+				.togetherOrderLink(togetherOrderLink)
+				.pickUpLocation(pickUpLocation)
+				.deliveryStatus(deliveryStatus)
 				.isDeleted(isDeleted)
 				.createdAt(createdAt)
 				.modifiedAt(modifiedAt)
