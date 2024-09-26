@@ -54,10 +54,7 @@ public class SpotService {
 	public void deleteSpot(Long id) {
 		Optional<Spot> spotToDelete = spotRepository.findByIdAndIsDeletedFalse(id);
 		spotToDelete.ifPresent(
-				spot -> {
-					spot.setDeleted(true);
-					spotRepository.save(spot);
-				});
+                Spot::delete);
 	}
 
 	// Service Layer에서 toDto만들어서 매핑시키기
@@ -72,11 +69,11 @@ public class SpotService {
 				.lat(spot.getLat())
 				.lng(spot.getLng())
 				.category(spot.getCategory())
-				.store_name(spot.getStore_name())
-				.minimum_order_amount(spot.getMinimum_order_amount())
-				.together_order_link(spot.getTogether_order_link())
-				.pick_up_location(spot.getPick_up_location())
-				.delivery_status(spot.getDelivery_status())
+				.storeName(spot.getStoreName())
+				.minimumOrderAmount(spot.getMinimumOrderAmount())
+				.togetherOrderLink(spot.getTogetherOrderLink())
+				.pickUpLocation(spot.getPickUpLocation())
+				.deliveryStatus(spot.getDeliveryStatus())
 				.isDeleted(spot.getIsDeleted())
 				.build();
 	}
