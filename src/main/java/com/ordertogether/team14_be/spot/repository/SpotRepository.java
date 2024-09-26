@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SpotRepository extends JpaRepository<Spot, Long> {
-  List<Spot> findByLatAndLngAndIsDeletedFalse(BigDecimal lat, BigDecimal lng);
+	List<Spot> findByLatAndLngAndIsDeletedFalse(BigDecimal lat, BigDecimal lng);
 
-  Optional<Spot> findByIdAndIsDeletedFalse(Long id);
+	Optional<Spot> findByIdAndIsDeletedFalse(Long id);
 }
