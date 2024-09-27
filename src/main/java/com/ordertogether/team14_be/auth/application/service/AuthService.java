@@ -3,7 +3,7 @@ package com.ordertogether.team14_be.auth.application.service;
 import com.ordertogether.team14_be.auth.JwtUtil;
 import com.ordertogether.team14_be.auth.application.dto.KakaoUserInfo;
 import com.ordertogether.team14_be.auth.presentation.KakaoClient;
-import com.ordertogether.team14_be.memebr.application.service.MemberService;
+import com.ordertogether.team14_be.member.application.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
