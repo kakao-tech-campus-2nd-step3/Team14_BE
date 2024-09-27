@@ -1,9 +1,12 @@
 spring:
+  application:
+    name: Team14_BE
+
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
+    driver-class-name: ${DRIVER_CLASS_NAME}
+    username: ${USERNAME}
     password:
-    url: jdbc:mysql://localhost:3306/delivery_sharing
+    url: ${URL}
 
   jpa:
     hibernate:
@@ -25,3 +28,19 @@ logging:
         orm:
           jdbc:
             bind: trace
+
+kakao:
+  client-id: ${KAKAO_CLIENT_ID}
+  redirect-url: ${KAKAO_REDIRECT_URL}
+
+  auth:
+    token:
+      url: ${KAKAO_AUTH_TOKEN_URL}
+
+  user:
+    api:
+      url: ${KAKAO_USER_API_URL}
+
+key:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
