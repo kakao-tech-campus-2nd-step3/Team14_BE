@@ -1,6 +1,6 @@
 package com.ordertogether.team14_be.order.details.entity;
 
-import com.ordertogether.team14_be.memebr.persistence.entity.Member;
+import com.ordertogether.team14_be.member.persistence.entity.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

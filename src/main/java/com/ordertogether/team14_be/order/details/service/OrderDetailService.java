@@ -1,7 +1,7 @@
 package com.ordertogether.team14_be.order.details.service;
 
-import com.ordertogether.team14_be.memebr.persistence.MemberRepository;
-import com.ordertogether.team14_be.memebr.persistence.entity.Member;
+import com.ordertogether.team14_be.member.persistence.MemberRepository;
+import com.ordertogether.team14_be.member.persistence.entity.Member;
 import com.ordertogether.team14_be.order.details.dto.create.CreateOrderDetailRequestDto;
 import com.ordertogether.team14_be.order.details.dto.create.CreateOrderDetailResponseDto;
 import com.ordertogether.team14_be.order.details.entity.OrderDetail;
@@ -22,7 +22,7 @@ public class OrderDetailService {
 	public OrderDetailService(
 			OrderDetailRepository orderDetailRepository,
 			OrderParticipantRepository orderParticipantRepository,
-			com.ordertogether.team14_be.memebr.persistence.MemberRepository memberRepository,
+			com.ordertogether.team14_be.member.persistence.MemberRepository memberRepository,
 			SpotRepository spotRepository) {
 		this.orderDetailRepository = orderDetailRepository;
 		this.orderParticipantRepository = orderParticipantRepository;
@@ -59,7 +59,7 @@ public class OrderDetailService {
 				.price(savedOrderDetail.getPrice())
 				.isPayed(savedOrderDetail.isPayed())
 				.leaderName(leader.getDeliveryName())
-				.spotName(spot.getStore_name())
+				.spotName(spot.getStoreName())
 				.build();
 	}
 }

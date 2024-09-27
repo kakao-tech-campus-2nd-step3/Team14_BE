@@ -1,7 +1,7 @@
 package com.ordertogether.team14_be.order.details.entity;
 
 import com.ordertogether.team14_be.common.persistence.entity.BaseTimeEntity;
-import com.ordertogether.team14_be.memebr.persistence.entity.Member;
+import com.ordertogether.team14_be.member.persistence.entity.Member;
 import com.ordertogether.team14_be.spot.entity.Spot;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
