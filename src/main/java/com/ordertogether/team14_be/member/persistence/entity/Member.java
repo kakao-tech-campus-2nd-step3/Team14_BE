@@ -1,4 +1,4 @@
-package com.ordertogether.team14_be.memebr.persistence.entity;
+package com.ordertogether.team14_be.member.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
