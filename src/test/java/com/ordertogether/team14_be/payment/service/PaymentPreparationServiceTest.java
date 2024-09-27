@@ -49,19 +49,19 @@ class PaymentPreparationServiceTest {
 		PaymentPrepareResponse response = paymentPreparationService.prepare(request);
 
 		// when
-		assertThat(response.getPaymentEventId()).isNotNull();
-		assertThat(response.getBuyerId()).isEqualTo(1L);
-		assertThat(response.getPaymentOrders()).hasSize(3);
-		assertThat(response.getOrderId()).isNotNull();
-		assertThat(response.getOrderName()).isEqualTo("Product 1,Product 2,Product 3");
-		assertThat(response.getPaymentKey()).isNotNull();
-		response.getPaymentOrders().stream()
+		assertThat(response.paymentEventId()).isNotNull();
+		assertThat(response.buyerId()).isEqualTo(1L);
+		assertThat(response.paymentOrders()).hasSize(3);
+		assertThat(response.orderId()).isNotNull();
+		assertThat(response.orderName()).isEqualTo("Product 1,Product 2,Product 3");
+		assertThat(response.paymentKey()).isNotNull();
+		response.paymentOrders().stream()
 				.forEach(
 						paymentOrder -> {
 							assertAll(
-									() -> assertThat(paymentOrder.getPaymentOrderId()).isNotNull(),
-									() -> assertThat(paymentOrder.getProductId()).isIn(1L, 2L, 3L),
-									() -> assertThat(paymentOrder.getOrderId()).isEqualTo(response.getOrderId()));
+									() -> assertThat(paymentOrder.paymentOrderId()).isNotNull(),
+									() -> assertThat(paymentOrder.productId()).isIn(1L, 2L, 3L),
+									() -> assertThat(paymentOrder.orderId()).isEqualTo(response.orderId()));
 						});
 	}
 
