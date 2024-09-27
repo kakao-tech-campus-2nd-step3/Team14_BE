@@ -1,6 +1,6 @@
-package com.ordertogether.team14_be.memebr.persistence;
+package com.ordertogether.team14_be.member.persistence;
 
-import com.ordertogether.team14_be.memebr.persistence.entity.Member;
+import com.ordertogether.team14_be.member.persistence.entity.Member;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
