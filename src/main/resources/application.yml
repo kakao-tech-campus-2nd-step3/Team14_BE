@@ -3,7 +3,7 @@ spring:
     name: Team14_BE
 
   datasource:
-    driver-class-name: ${DRIVER_CALSS_NAME}
+    driver-class-name: ${DRIVER_CLASS_NAME}
     username: ${USERNAME}
     password:
     url: ${URL}
@@ -43,4 +43,4 @@ kakao:
 
 key:
   jwt:
-    secreat-key: ${JWT_SCREAT_KEY}
+    secret-key: ${JWT_SECRET_KEY}
