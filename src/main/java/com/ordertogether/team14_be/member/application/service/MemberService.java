@@ -1,7 +1,7 @@
-package com.ordertogether.team14_be.memebr.application.service;
+package com.ordertogether.team14_be.member.application.service;
 
-import com.ordertogether.team14_be.memebr.persistence.MemberRepository;
-import com.ordertogether.team14_be.memebr.persistence.entity.Member;
+import com.ordertogether.team14_be.member.persistence.MemberRepository;
+import com.ordertogether.team14_be.member.persistence.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
