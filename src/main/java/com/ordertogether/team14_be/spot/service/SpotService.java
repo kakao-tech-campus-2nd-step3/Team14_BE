@@ -53,8 +53,7 @@ public class SpotService {
 	@Transactional
 	public void deleteSpot(Long id) {
 		Optional<Spot> spotToDelete = spotRepository.findByIdAndIsDeletedFalse(id);
-		spotToDelete.ifPresent(
-                Spot::delete);
+		spotToDelete.ifPresent(Spot::delete);
 	}
 
 	// Service Layer에서 toDto만들어서 매핑시키기
