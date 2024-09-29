@@ -1,18 +1,22 @@
 package com.ordertogether.team14_be.spot.entity;
 
+import com.ordertogether.team14_be.common.persistence.entity.BaseEntity;
+import com.ordertogether.team14_be.spot.enums.Category;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Builder
-@AllArgsConstructor
+@SuperBuilder // 상속받은 필드도 빌더에서 사용
 @NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Spot {
+@Table(indexes = {@Index(name = "idx_lat_lng", columnList = "lat, lng")})
+@DynamicUpdate // 변경한 필드만 대응
+public class Spot extends BaseEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -23,14 +27,23 @@ public class Spot {
 	@Column(precision = 11, scale = 8)
 	private BigDecimal lng;
 
-	private String category;
-	private String store_name;
-	private Integer minimum_order_amount;
+	private Category category;
+	private String storeName;
+	private Integer minimumOrderAmount;
 
 	@Lob
 	@Column(columnDefinition = "MEDIUMTEXT")
-	private String together_order_link;
+	private String togetherOrderLink;
 
-	private String pick_up_location;
-	private String delivery_status;
+	private String pickUpLocation;
+	private String deliveryStatus;
+	@Builder.Default private Boolean isDeleted = false;
+
+	public void delete() {
+		this.isDeleted = true;
+	}
+
+	public void restore() {
+		this.isDeleted = false;
+	}
 }
