@@ -4,6 +4,7 @@ buildscript {
         spring_dependency_management_version = '1.1.6'
         spotless_version = '6.25.0'
         jjwt_version = '0.11.5'
+        swagger_version = '2.0.2'
     }
 }
 
@@ -39,8 +40,7 @@ dependencies {
 
     /** Json Web Token */
     implementation "io.jsonwebtoken:jjwt-api:${jjwt_version}"
-    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwt_version}"
-    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwt_version}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${swagger_version}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
