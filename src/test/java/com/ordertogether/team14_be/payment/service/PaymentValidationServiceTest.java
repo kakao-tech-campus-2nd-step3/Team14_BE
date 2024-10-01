@@ -47,7 +47,7 @@ class PaymentValidationServiceTest {
 
 	@Test
 	@DisplayName("유효한 결제 요청에 대해 true 를 반환한다.")
-	void shouldReturnTrueWhenIegalRequest() {
+	void shouldReturnTrueWhenLegalRequest() {
 		// given
 		String orderId = "order-id";
 		BigDecimal requestedAmount = BigDecimal.valueOf(60000);
