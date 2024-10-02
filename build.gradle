@@ -35,29 +35,17 @@ apply {
 dependencies {
     /** spring boot starter */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-<<<<<<< HEAD
-=======
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
->>>>>>> 9a45ad8eddb2d147d9dd491a2b27aacb14bbdc63
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "io.jsonwebtoken:jjwt-api:${jjwt_version}"
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${swagger_version}"
 
-<<<<<<< HEAD
-    /** Json Web Token */
-    implementation "io.jsonwebtoken:jjwt-api:${jjwt_version}"
-    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwt_version}"
-    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwt_version}"
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-=======
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.springframework.security:spring-security-test'
 
     /** thymeleaf and spring security integration */
 //    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
->>>>>>> 9a45ad8eddb2d147d9dd491a2b27aacb14bbdc63
 
     /** lombok */
     compileOnly 'org.projectlombok:lombok'
