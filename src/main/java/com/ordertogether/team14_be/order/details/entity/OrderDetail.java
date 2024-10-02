@@ -33,18 +33,14 @@ public class OrderDetail extends BaseTimeEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	// 다대다 관계를 풀기 위한 OrderParticipant 사용
-	@OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL)
-	private List<OrderParticipant> participants = new ArrayList<>();
-
-	// 방장 정보를 별도로 저장하는 필드
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "leader_id", nullable = false)
-	private Member leader;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "spot_id", nullable = false)
 	private Spot spot;
+
+	// 방장의 정보는 Spot 에 있으니까...
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "participant_id", nullable = false)
+	private Member member;
 
 	private int price;
 
