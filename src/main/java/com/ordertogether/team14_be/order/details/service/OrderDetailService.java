@@ -6,37 +6,27 @@ import com.ordertogether.team14_be.order.details.dto.create.CreateOrderDetailReq
 import com.ordertogether.team14_be.order.details.dto.create.CreateOrderDetailResponseDto;
 import com.ordertogether.team14_be.order.details.entity.OrderDetail;
 import com.ordertogether.team14_be.order.details.repository.OrderDetailRepository;
-import com.ordertogether.team14_be.order.details.repository.OrderParticipantRepository;
 import com.ordertogether.team14_be.spot.entity.Spot;
 import com.ordertogether.team14_be.spot.repository.SpotRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class OrderDetailService {
 
 	private final OrderDetailRepository orderDetailRepository;
-	private final OrderParticipantRepository orderParticipantRepository;
-	private final MemberRepository MemberRepository;
+	private final MemberRepository memberRepository;
 	private final SpotRepository spotRepository;
-
-	public OrderDetailService(
-			OrderDetailRepository orderDetailRepository,
-			OrderParticipantRepository orderParticipantRepository,
-			com.ordertogether.team14_be.member.persistence.MemberRepository memberRepository,
-			SpotRepository spotRepository) {
-		this.orderDetailRepository = orderDetailRepository;
-		this.orderParticipantRepository = orderParticipantRepository;
-		MemberRepository = memberRepository;
-		this.spotRepository = spotRepository;
-	}
 
 	// 주문 상세 정보 생성 메서드
 	public CreateOrderDetailResponseDto createOrderDetail(
 			CreateOrderDetailRequestDto createOrderDetailRequestDto) {
-		// 방장 정보 설정
-		Member leader =
-				MemberRepository.findById(createOrderDetailRequestDto.getLeaderId())
-						.orElseThrow(() -> new IllegalArgumentException("방장 정보가 없습니다."));
+
+		// 참여자 본인 정보 설정
+		Member member =
+				memberRepository.findById(createOrderDetailRequestDto.getParticipantId())
+						.orElseThrow(() -> new IllegalArgumentException("참여자 정보가 없습니다."));
 
 		// 스팟 정보 설정
 		Spot spot =
@@ -46,7 +36,7 @@ public class OrderDetailService {
 
 		OrderDetail orderDetail =
 				OrderDetail.builder()
-						.leader(leader)
+						.member(member)
 						.spot(spot)
 						.price(createOrderDetailRequestDto.getPrice())
 						.isPayed(createOrderDetailRequestDto.isPayed())
@@ -58,7 +48,7 @@ public class OrderDetailService {
 				.id(savedOrderDetail.getId())
 				.price(savedOrderDetail.getPrice())
 				.isPayed(savedOrderDetail.isPayed())
-				.leaderName(leader.getDeliveryName())
+				.participantName(savedOrderDetail.getMember().getDeliveryName())
 				.spotName(spot.getStoreName())
 				.build();
 	}

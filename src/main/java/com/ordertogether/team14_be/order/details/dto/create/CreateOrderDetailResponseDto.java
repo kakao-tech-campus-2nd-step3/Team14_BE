@@ -13,6 +13,6 @@ public class CreateOrderDetailResponseDto {
 	private Long id;
 	private int price;
 	private boolean isPayed;
-	private String leaderName; // 리더의 이름
+	private String participantName; // 참여자의 이름
 	private String spotName; // 스팟(가게)의 이름
 }

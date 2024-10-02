@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class CreateOrderDetailRequestDto {
 	private int price;
 	private boolean isPayed;
-	private Long leaderId; // 방장 ID
+	private Long participantId; // 참여자 아이디
 	private Long spotId; // Spot ID (스팟 정보)
 }
