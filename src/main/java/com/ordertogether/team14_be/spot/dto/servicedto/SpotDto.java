@@ -1,6 +1,5 @@
-package com.ordertogether.team14_be.spot.dto;
+package com.ordertogether.team14_be.spot.dto.servicedto;
 
-import com.ordertogether.team14_be.spot.entity.Spot;
 import com.ordertogether.team14_be.spot.enums.Category;
 import jakarta.persistence.Column;
 import java.math.BigDecimal;
@@ -8,8 +7,8 @@ import java.time.LocalDateTime;
 import lombok.*;
 
 @Builder
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class SpotDto {
 	private Long id;
@@ -31,23 +30,4 @@ public class SpotDto {
 	private LocalDateTime modifiedAt;
 	private Long createdBy;
 	private Long modifiedBy;
-
-	public Spot toEntity() {
-		return Spot.builder()
-				.id(id)
-				.lat(lat)
-				.lng(lng)
-				.category(category)
-				.storeName(storeName)
-				.minimumOrderAmount(minimumOrderAmount)
-				.togetherOrderLink(togetherOrderLink)
-				.pickUpLocation(pickUpLocation)
-				.deliveryStatus(deliveryStatus)
-				.isDeleted(isDeleted)
-				.createdAt(createdAt)
-				.modifiedAt(modifiedAt)
-				.createdBy(createdBy)
-				.modifiedBy(modifiedBy)
-				.build();
-	}
 }

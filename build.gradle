@@ -40,6 +40,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "io.jsonwebtoken:jjwt-api:${jjwt_version}"
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${swagger_version}"
+    implementation 'org.mapstruct:mapstruct:1.6.2'
+
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.springframework.security:spring-security-test'
