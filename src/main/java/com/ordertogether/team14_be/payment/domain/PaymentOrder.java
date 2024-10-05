@@ -1,42 +1,48 @@
 package com.ordertogether.team14_be.payment.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 import java.math.BigDecimal;
-import java.util.Objects;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@Entity
 @Getter
+@SuperBuilder
 @ToString
-public class PaymentOrder {
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class PaymentOrder extends BaseEntity {
 
-	private Long id;
+  @Column(nullable = false)
+  private Long sellerId; // 판매자 식별자
 
-	private Long productId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private PaymentEvent paymentEvent;
 
-	private String orderId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Product productId;
 
-	private String orderName;
+  @Column(nullable = false)
+  private String orderId;
 
-	private BigDecimal amount;
+  @Column(precision = 10, scale = 2)
+  private BigDecimal amount; // 결제 금액
 
-	public PaymentOrder updateProductInfo(Product product) {
-		if (isProductMismatch(product)) {
-			throw new IllegalArgumentException("상품 정보가 일치하지 않습니다.");
-		}
+  @Enumerated(EnumType.STRING)
+  @Builder.Default
+  private PaymentOrderStatus paymentOrderStatus = PaymentOrderStatus.READY;
 
-		this.orderName = product.getName();
-		this.amount = product.getPrice();
+  @Builder.Default private Byte retryCount = 0; // 재시도 횟수
 
-		return this;
-	}
-
-	public boolean isMissingProductInfo() {
-		return Objects.isNull(orderName) && Objects.isNull(amount);
-	}
-
-	private boolean isProductMismatch(Product product) {
-		return !Objects.equals(productId, product.getId());
-	}
+  @Builder.Default private Byte retryThreshold = 5; // 재시도 허용 임계값
 }
