@@ -1,15 +1,42 @@
 package com.ordertogether.team14_be.spot.repository;
 
+import com.ordertogether.team14_be.spot.dto.servicedto.SpotDto;
 import com.ordertogether.team14_be.spot.entity.Spot;
+import com.ordertogether.team14_be.spot.mapper.SpotMapper;
+import jakarta.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SpotRepository extends JpaRepository<Spot, Long> {
-	List<Spot> findByLatAndLngAndIsDeletedFalse(BigDecimal lat, BigDecimal lng);
+@RequiredArgsConstructor
+public class SpotRepository {
 
-	Optional<Spot> findByIdAndIsDeletedFalse(Long id);
+	private final SimpleSpotRepository simpleSpotRepository;
+
+	public SpotDto save(Spot spot) {
+		return SpotMapper.INSTANCE.toDto(simpleSpotRepository.save(spot));
+	}
+
+	public SpotDto findByIdAndIsDeletedFalse(Long id) {
+		return SpotMapper.INSTANCE.toDto(
+				simpleSpotRepository
+						.findByIdAndIsDeletedFalse(id)
+						.orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 Spot을 찾을 수 없습니다.")));
+	}
+
+	public List<SpotDto> findByLatAndLngAndIsDeletedFalse(BigDecimal lat, BigDecimal lng) {
+		return simpleSpotRepository.findByLatAndLngAndIsDeletedFalse(lat, lng).stream()
+				.map(SpotMapper.INSTANCE::toDto)
+				.toList();
+	}
+
+	public void delete(Long id) {
+		Spot spot =
+				simpleSpotRepository
+						.findByIdAndIsDeletedFalse(id)
+						.orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 Spot을 찾을 수 없습니다."));
+		spot.delete();
+	}
 }
