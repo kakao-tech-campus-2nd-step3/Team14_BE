@@ -1,8 +1,18 @@
+buildscript {
+    ext {
+        spring_boot_version = '3.3.3'
+        spring_dependency_management_version = '1.1.6'
+        spotless_version = '6.25.0'
+        jjwt_version = '0.11.5'
+        swagger_version = '2.0.2'
+    }
+}
+
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.3.3'
-    id 'io.spring.dependency-management' version '1.1.6'
-    id "com.diffplug.spotless" version '6.25.0'
+    id 'org.springframework.boot' version "${spring_boot_version}"
+    id 'io.spring.dependency-management' version "${spring_dependency_management_version}"
+    id "com.diffplug.spotless" version "${spotless_version}"
 }
 
 group = 'com.ordertogether'
@@ -25,15 +35,20 @@ apply {
 dependencies {
     /** spring boot starter */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "io.jsonwebtoken:jjwt-api:${jjwt_version}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${swagger_version}"
+    implementation 'org.mapstruct:mapstruct:1.6.2'
+
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
+//    testImplementation 'org.springframework.security:spring-security-test'
 
     /** thymeleaf and spring security integration */
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+//    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
     /** lombok */
     compileOnly 'org.projectlombok:lombok'
@@ -45,17 +60,16 @@ dependencies {
 
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:${jjwt_version}"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jjwt_version}"
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 spotless {
     java {
-        importOrder()
-        indentWithTabs(2)
-        indentWithSpaces(4)
-        removeUnusedImports()
         googleJavaFormat()
+        indentWithTabs(2)
         trimTrailingWhitespace()
         endWithNewline()
     }

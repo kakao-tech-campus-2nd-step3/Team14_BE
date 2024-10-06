@@ -1,33 +1,34 @@
 package com.ordertogether.team14_be.payment.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import java.math.BigDecimal;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 
-@Entity
+@Builder
 @Getter
-@SuperBuilder
 @ToString
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PaymentEvent extends BaseEntity {
+public class PaymentEvent {
 
-  @Column(nullable = false)
-  private Long buyerId; // 구매자 식별자
+	private Long id;
 
-  @Column(nullable = false)
-  private String orderId;
+	private Long buyerId;
 
-  private String orderName;
+	private List<PaymentOrder> paymentOrders;
 
-  @Column(nullable = false)
-  private String paymentKey; // PSP 결제 식별자
+	private String orderId;
 
-  @Builder.Default private Boolean isPaymentDone = false;
+	private String orderName;
+
+	private String paymentKey;
+
+	@Builder.Default private PaymentStatus paymentStatus = PaymentStatus.READY;
+
+	public Long totalAmount() {
+		return paymentOrders.stream()
+				.map(PaymentOrder::getAmount)
+				.reduce(BigDecimal.ZERO, BigDecimal::add)
+				.longValue();
+	}
 }

@@ -1,26 +1,18 @@
 package com.ordertogether.team14_be.payment.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import java.math.BigDecimal;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 
-@Entity
+@Builder
 @Getter
-@SuperBuilder
 @ToString
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Product extends BaseEntity {
+public class Product {
 
-  @Column(nullable = false)
-  private String name;
+	private Long id;
 
-  @Column(nullable = false)
-  private BigDecimal price;
+	private String name;
+
+	private BigDecimal price;
 }
