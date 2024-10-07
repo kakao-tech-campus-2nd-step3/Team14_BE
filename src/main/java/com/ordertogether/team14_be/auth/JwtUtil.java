@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
-	private static final SecretKey key = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
+	private static final SecretKey KEY = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
 	private static final int EXPIRE_TIME = 1;
 
 	public static String generateToken(String email) {
@@ -20,7 +20,7 @@ public class JwtUtil {
 				.setSubject(email)
 				.setIssuedAt(now)
 				.setExpiration(exp)
-				.signWith(key)
+				.signWith(KEY)
 				.compact();
 	}
 }
