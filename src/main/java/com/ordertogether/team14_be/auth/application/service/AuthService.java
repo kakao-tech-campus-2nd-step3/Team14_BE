@@ -19,7 +19,7 @@ public class AuthService {
 		KakaoUserInfo kakaoUserInfo = kakaoClient.getUserInfo((kakaoToken));
 		String userKakaoEmail = kakaoUserInfo.kakaoAccount().email();
 		memberService.findOrCreateMember(userKakaoEmail);
-		String serviceToken = JwtUtil.generateToken(userKakaoEmail);
+		String serviceToken = JwtUtil.generateToken(memberService.getMemberId(userKakaoEmail));
 
 		return serviceToken;
 	}

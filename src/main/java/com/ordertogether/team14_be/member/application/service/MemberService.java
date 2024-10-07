@@ -21,4 +21,9 @@ public class MemberService {
 									return memberRepository.saveAndFlush(newMember);
 								});
 	}
+
+	public Long getMemberId(String email) {
+		Member member = memberRepository.findByEmail(email).get();
+		return member.getId();
+	}
 }
