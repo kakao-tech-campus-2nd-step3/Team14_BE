@@ -6,7 +6,6 @@ import com.ordertogether.team14_be.auth.application.dto.KakaoUserInfo;
 import java.net.URI;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,7 +17,7 @@ import org.springframework.web.client.RestClient;
 @RequiredArgsConstructor
 public class KakaoClient {
 
-	@Autowired private final RestClient restClient;
+	private final RestClient restClient;
 	private final KakaoProperties kakaoProperties;
 
 	@Value("${kakao.auth.token.url}")
