@@ -1,9 +1,6 @@
 package com.ordertogether.team14_be.spot.mapper;
 
-import com.ordertogether.team14_be.spot.dto.controllerdto.SpotCreationRequest;
-import com.ordertogether.team14_be.spot.dto.controllerdto.SpotCreationResponse;
-import com.ordertogether.team14_be.spot.dto.controllerdto.SpotDetailResponse;
-import com.ordertogether.team14_be.spot.dto.controllerdto.SpotViewedResponse;
+import com.ordertogether.team14_be.spot.dto.controllerdto.*;
 import com.ordertogether.team14_be.spot.dto.servicedto.SpotDto;
 import com.ordertogether.team14_be.spot.entity.Spot;
 import org.mapstruct.Mapper;
@@ -30,4 +27,8 @@ public interface SpotMapper {
 	SpotDetailResponse toSpotDetailResponse(SpotDto spotDto);
 
 	SpotViewedResponse toSpotViewedResponse(SpotDto spotDto);
+
+	SpotModifyRequest toSpotModifyRequest(SpotDto spotDto);
+
+	SpotDto toSpotDto(SpotModifyRequest spotModifyRequest);
 }
