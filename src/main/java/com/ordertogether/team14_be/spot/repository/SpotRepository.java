@@ -2,6 +2,7 @@ package com.ordertogether.team14_be.spot.repository;
 
 import com.ordertogether.team14_be.spot.dto.servicedto.SpotDto;
 import com.ordertogether.team14_be.spot.entity.Spot;
+import com.ordertogether.team14_be.spot.exception.SpotNotFoundException;
 import com.ordertogether.team14_be.spot.mapper.SpotMapper;
 import jakarta.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
@@ -23,7 +24,7 @@ public class SpotRepository {
 		return SpotMapper.INSTANCE.toDto(
 				simpleSpotRepository
 						.findByIdAndIsDeletedFalse(id)
-						.orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 Spot을 찾을 수 없습니다.")));
+						.orElseThrow(() -> new SpotNotFoundException(id + "에 해당하는 Spot을 찾을 수 없습니다.")));
 	}
 
 	public List<SpotDto> findByLatAndLngAndIsDeletedFalse(BigDecimal lat, BigDecimal lng) {
@@ -38,5 +39,12 @@ public class SpotRepository {
 						.findByIdAndIsDeletedFalse(id)
 						.orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 Spot을 찾을 수 없습니다."));
 		spot.delete();
+	}
+
+	public List<SpotDto> findAroundSpotAndIsDeletedFalse(
+			BigDecimal maxX, BigDecimal maxY, BigDecimal minX, BigDecimal minY) {
+		List<Spot> spots = simpleSpotRepository.findAroundSpotAndIsDeletedFalse(maxX, maxY, minX, minY);
+
+		return spots.stream().map(SpotMapper.INSTANCE::toDto).toList();
 	}
 }
