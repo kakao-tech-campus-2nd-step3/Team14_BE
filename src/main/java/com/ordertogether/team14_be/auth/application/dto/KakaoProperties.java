@@ -4,7 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.LinkedMultiValueMap;
 
 @ConfigurationProperties(prefix = "kakao")
-public record KakaoProperties(String clientId, String redirectUrl) {
+public record KakaoProperties(
+		String clientId, String redirectUrl, String tokenUrl, String userApiUrl) {
 	public LinkedMultiValueMap<String, String> createBody(String code) {
 		LinkedMultiValueMap<String, String> body = new LinkedMultiValueMap<>();
 
