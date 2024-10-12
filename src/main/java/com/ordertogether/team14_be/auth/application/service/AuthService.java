@@ -13,13 +13,14 @@ public class AuthService {
 
 	private final KakaoClient kakaoClient;
 	private final MemberService memberService;
+	private static JwtUtil jwtUtil;
 
 	public String kakaoLogin(String authorizationCode) {
 		String kakaoToken = kakaoClient.getAccessToken(authorizationCode); // 인가코드로부터 카카오토큰 발급
 		KakaoUserInfo kakaoUserInfo = kakaoClient.getUserInfo((kakaoToken));
 		String userKakaoEmail = kakaoUserInfo.kakaoAccount().email();
 		memberService.findOrCreateMember(userKakaoEmail);
-		String serviceToken = JwtUtil.generateToken(userKakaoEmail);
+		String serviceToken = jwtUtil.generateToken(memberService.getMemberId(userKakaoEmail));
 
 		return serviceToken;
 	}
