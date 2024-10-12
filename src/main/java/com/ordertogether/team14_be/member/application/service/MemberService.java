@@ -2,6 +2,7 @@ package com.ordertogether.team14_be.member.application.service;
 
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
 import com.ordertogether.team14_be.member.persistence.entity.Member;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ public class MemberService {
 
 	private final MemberRepository memberRepository;
 
+	@Transactional
 	public void findOrCreateMember(String email) {
 		Member member =
 				memberRepository
