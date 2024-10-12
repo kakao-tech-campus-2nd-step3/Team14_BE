@@ -6,7 +6,7 @@ import com.ordertogether.team14_be.order.details.dto.create.CreateOrderDetailReq
 import com.ordertogether.team14_be.order.details.dto.create.CreateOrderDetailResponseDto;
 import com.ordertogether.team14_be.order.details.entity.OrderDetail;
 import com.ordertogether.team14_be.order.details.repository.OrderDetailRepository;
-import com.ordertogether.team14_be.spot.entity.Spot;
+import com.ordertogether.team14_be.spot.dto.servicedto.SpotDto;
 import com.ordertogether.team14_be.spot.repository.SpotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,19 +25,18 @@ public class OrderDetailService {
 
 		// 참여자 본인 정보 설정
 		Member member =
-				memberRepository.findById(createOrderDetailRequestDto.getParticipantId())
+				memberRepository
+						.findById(createOrderDetailRequestDto.getParticipantId())
 						.orElseThrow(() -> new IllegalArgumentException("참여자 정보가 없습니다."));
 
 		// 스팟 정보 설정
-		Spot spot =
-				spotRepository
-						.findById(createOrderDetailRequestDto.getSpotId())
-						.orElseThrow(() -> new IllegalArgumentException("스팟 정보를 찾을 수 없습니다."));
+		SpotDto spot =
+				spotRepository.findByIdAndIsDeletedFalse(createOrderDetailRequestDto.getSpotId());
 
 		OrderDetail orderDetail =
 				OrderDetail.builder()
 						.member(member)
-						.spot(spot)
+						//						.spot(spot)
 						.price(createOrderDetailRequestDto.getPrice())
 						.isPayed(createOrderDetailRequestDto.isPayed())
 						.build();
