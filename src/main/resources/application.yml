@@ -44,3 +44,6 @@ kakao:
 key:
   jwt:
     secret-key: ${JWT_SECRET_KEY}
+
+jwt:
+  expire-time: 1
