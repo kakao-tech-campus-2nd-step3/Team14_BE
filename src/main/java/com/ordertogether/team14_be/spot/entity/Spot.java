@@ -1,6 +1,7 @@
 package com.ordertogether.team14_be.spot.entity;
 
 import com.ordertogether.team14_be.common.persistence.entity.BaseEntity;
+import com.ordertogether.team14_be.member.persistence.entity.Member;
 import com.ordertogether.team14_be.spot.enums.Category;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -20,6 +21,10 @@ public class Spot extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@ManyToOne
+	@JoinColumn(name = "master_id") // PK 참조해서 master_id 속성 추가
+	private Member member;
 
 	@Column(precision = 10, scale = 8)
 	private BigDecimal lat;

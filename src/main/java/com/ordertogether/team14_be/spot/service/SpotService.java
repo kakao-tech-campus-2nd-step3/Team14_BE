@@ -1,79 +1,97 @@
 package com.ordertogether.team14_be.spot.service;
 
-import com.ordertogether.team14_be.spot.dto.SpotDto;
+import static java.lang.Math.abs;
+
+import com.ordertogether.team14_be.spot.dto.controllerdto.SpotCreationResponse;
+import com.ordertogether.team14_be.spot.dto.controllerdto.SpotDetailResponse;
+import com.ordertogether.team14_be.spot.dto.controllerdto.SpotViewedResponse;
+import com.ordertogether.team14_be.spot.dto.servicedto.SpotDto;
 import com.ordertogether.team14_be.spot.entity.Spot;
+import com.ordertogether.team14_be.spot.mapper.SpotMapper;
 import com.ordertogether.team14_be.spot.repository.SpotRepository;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class SpotService {
-
+	public static final int EARTH_RADIUS = 6371000; // 6371km
 	private final SpotRepository spotRepository;
 
-	@Autowired
-	public SpotService(SpotRepository spotRepository) {
-		this.spotRepository = spotRepository;
-	}
-
 	// Spot 전체 조회하기
-	public List<SpotDto> getSpot(BigDecimal lat, BigDecimal lng) {
+	@Transactional(readOnly = true)
+	public List<SpotViewedResponse> getSpot(BigDecimal lat, BigDecimal lng) {
 		return spotRepository.findByLatAndLngAndIsDeletedFalse(lat, lng).stream()
-				.map(this::toDto)
-				.collect(Collectors.toList());
+				.map(SpotMapper.INSTANCE::toSpotViewedResponse)
+				.toList();
 	}
 
 	@Transactional
-	public SpotDto createSpot(SpotDto spotDto) {
-		Spot spot = spotDto.toEntity();
-		return toDto(spotRepository.save(spot));
+	public SpotCreationResponse createSpot(SpotDto spotDto) {
+		Spot spot = SpotMapper.INSTANCE.toEntity(spotDto, new Spot());
+		return SpotMapper.INSTANCE.toSpotCreationResponse(spotRepository.save(spot));
 	}
 
 	// Spot 상세 조회하기
-	public SpotDto getSpot(Long id) {
-		Spot spot =
-				spotRepository
-						.findById(id)
-						.orElseThrow(() -> new EntityNotFoundException("Spot을 찾을 수 없습니다."));
-		return toDto(spot);
+	@Transactional(readOnly = true)
+	public SpotDetailResponse getSpot(Long id) {
+		SpotDto spotDto = spotRepository.findByIdAndIsDeletedFalse(id);
+		return SpotMapper.INSTANCE.toSpotDetailResponse(spotDto);
+	}
+
+	// 반경 n미터 내 Spot 조회하기
+	@Transactional(readOnly = true)
+	public List<SpotViewedResponse> getSpotByRadius(BigDecimal lat, BigDecimal lng, int radius) {
+		// m당 y 좌표 이동 값
+		double mForLatitude = (1 / (EARTH_RADIUS * 1 * (Math.PI / 180))) / 1000;
+		// m당 x 좌표 이동 값
+		double mForLongitude =
+				(1 / (EARTH_RADIUS * 1 * (Math.PI / 180) * Math.cos(Math.toRadians(lat.doubleValue()))))
+						/ 1000;
+
+		// 현재 위치 기준 검색 거리 좌표
+		double maxY = lat.doubleValue() + (radius * mForLatitude);
+		double minY = lat.doubleValue() - (radius * mForLatitude);
+		double maxX = lng.doubleValue() + (radius * mForLongitude);
+		double minX = lng.doubleValue() - (radius * mForLongitude);
+
+		// 원의 지름에 해당하는 정사각형 내에 있는 Spot들을 모두 가져옴
+		List<SpotDto> resultAroundSpot =
+				spotRepository.findAroundSpotAndIsDeletedFalse(
+						BigDecimal.valueOf(maxX),
+						BigDecimal.valueOf(maxY),
+						BigDecimal.valueOf(minX),
+						BigDecimal.valueOf(minY));
+
+		// 자기 위치에서부터 반경 내에 있는 Spot만 반환
+		return resultAroundSpot.stream()
+				.filter(
+						spotDto -> {
+							double distance =
+									Math.sqrt(
+											Math.pow(abs(spotDto.getLat().doubleValue() - lat.doubleValue()), 2)
+													+ Math.pow(abs(spotDto.getLng().doubleValue() - lng.doubleValue()), 2));
+							return distance <= radius;
+						})
+				.map(SpotMapper.INSTANCE::toSpotViewedResponse)
+				.toList();
 	}
 
 	@Transactional
 	public SpotDto updateSpot(SpotDto spotDto) {
-		Spot spot = spotRepository.save(spotDto.toEntity());
-		return toDto(spot);
+		Spot spot =
+				SpotMapper.INSTANCE.toEntity(
+						spotDto,
+						SpotMapper.INSTANCE.toEntity(
+								spotRepository.findByIdAndIsDeletedFalse(spotDto.getId())));
+		return SpotMapper.INSTANCE.toDto(spot);
 	}
 
 	@Transactional
 	public void deleteSpot(Long id) {
-		Optional<Spot> spotToDelete = spotRepository.findByIdAndIsDeletedFalse(id);
-		spotToDelete.ifPresent(Spot::delete);
-	}
-
-	// Service Layer에서 toDto만들어서 매핑시키기
-	public SpotDto toDto(Spot spotInStream) {
-		Spot spot =
-				spotRepository
-						.findById(spotInStream.getId())
-						.orElseThrow(() -> new EntityNotFoundException("Spot을 찾을 수 없습니다."));
-
-		return SpotDto.builder()
-				.id(spot.getId())
-				.lat(spot.getLat())
-				.lng(spot.getLng())
-				.category(spot.getCategory())
-				.storeName(spot.getStoreName())
-				.minimumOrderAmount(spot.getMinimumOrderAmount())
-				.togetherOrderLink(spot.getTogetherOrderLink())
-				.pickUpLocation(spot.getPickUpLocation())
-				.deliveryStatus(spot.getDeliveryStatus())
-				.isDeleted(spot.getIsDeleted())
-				.build();
+		spotRepository.delete(id);
 	}
 }
