@@ -71,4 +71,9 @@ public class Member {
 		member.setEmail(email); // 이메일 설정
 		return member;
 	}
+
+	public void modifyMemberInfo(String deliveryName, String phoneNumber) {
+		this.deliveryName = deliveryName;
+		this.phoneNumber = phoneNumber;
+	}
 }
