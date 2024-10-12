@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.util.Date;
 import javax.crypto.SecretKey;
 
-public class JwtUtil {
+public final class JwtUtil {
 	private static final SecretKey KEY = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
 	private static final int EXPIRE_TIME = 1;
 
