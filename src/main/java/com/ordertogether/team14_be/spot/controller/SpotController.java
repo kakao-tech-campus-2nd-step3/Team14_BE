@@ -1,9 +1,6 @@
 package com.ordertogether.team14_be.spot.controller;
 
-import com.ordertogether.team14_be.spot.dto.controllerdto.SpotCreationRequest;
-import com.ordertogether.team14_be.spot.dto.controllerdto.SpotCreationResponse;
-import com.ordertogether.team14_be.spot.dto.controllerdto.SpotDetailResponse;
-import com.ordertogether.team14_be.spot.dto.controllerdto.SpotViewedResponse;
+import com.ordertogether.team14_be.spot.dto.controllerdto.*;
 import com.ordertogether.team14_be.spot.mapper.SpotMapper;
 import com.ordertogether.team14_be.spot.service.SpotService;
 import java.math.BigDecimal;
@@ -41,13 +38,20 @@ public class SpotController {
 		return ResponseEntity.ok(spotService.getSpot(id));
 	}
 
+	// 반경 n미터 내 Spot 조회하기
+	@GetMapping("/api/v1/spot/{lat}/{lng}/{radius}") // 현재 위치의 좌표와 반지름을 받아옴
+	public ResponseEntity<List<SpotViewedResponse>> getSpotByRadius(
+			@PathVariable BigDecimal lat, @PathVariable BigDecimal lng, @PathVariable int radius) {
+		return ResponseEntity.ok(spotService.getSpotByRadius(lat, lng, radius));
+	}
+
 	// Spot 수정하기
 	@PutMapping("/api/v1/spot")
 	public ResponseEntity<SpotCreationResponse> updateSpot(
-			@RequestBody SpotCreationRequest spotCreationRequest) {
+			@RequestBody SpotModifyRequest spotModifyRequest) {
 		return ResponseEntity.ok(
 				SpotMapper.INSTANCE.toSpotCreationResponse(
-						spotService.updateSpot(SpotMapper.INSTANCE.toSpotDto(spotCreationRequest))));
+						spotService.updateSpot(SpotMapper.INSTANCE.toSpotDto(spotModifyRequest))));
 	}
 
 	// Spot 삭제하기

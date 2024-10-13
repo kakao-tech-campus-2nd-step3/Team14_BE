@@ -6,9 +6,7 @@ import com.ordertogether.team14_be.payment.persistence.jpa.entity.ProductEntity;
 import com.ordertogether.team14_be.payment.persistence.jpa.mapper.PaymentOrderMapper;
 import com.ordertogether.team14_be.payment.persistence.jpa.mapper.ProductMapper;
 import com.ordertogether.team14_be.payment.persistence.repository.PaymentOrderRepository;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
@@ -55,19 +53,12 @@ public class JpaPaymentOrderRepository implements PaymentOrderRepository {
 		return simpleJpaPaymentOrderRepository.findById(id).map(PaymentOrderMapper::mapToDomain);
 	}
 
-	@Override
-	public BigDecimal getPaymentTotalAmount(String orderId) {
-		return simpleJpaPaymentOrderRepository
-				.getPaymentTotalAmount(orderId)
-				.orElseThrow(() -> new NoSuchElementException("주문 번호: %s 에 해당하는 주문이 존재하지 않습니다."));
-	}
-
 	private ProductEntity getProductEntity(PaymentOrder paymentOrder) {
 		return simpleJpaProductRepository
 				.findById(paymentOrder.getProductId())
 				.orElseThrow(
 						() ->
-								new NoSuchElementException(
+								new IllegalArgumentException(
 										String.format("상품 아이디 %s에 해당하는 상품이 없습니다.", paymentOrder.getProductId())));
 	}
 }

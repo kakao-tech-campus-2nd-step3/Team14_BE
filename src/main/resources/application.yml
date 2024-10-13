@@ -5,7 +5,6 @@ spring:
   datasource:
     driver-class-name: ${DRIVER_CLASS_NAME}
     username: ${USERNAME}
-    password:
     url: ${URL}
 
   jpa:
@@ -44,3 +43,6 @@ kakao:
 key:
   jwt:
     secret-key: ${JWT_SECRET_KEY}
+
+jwt:
+  expire-time: 1
