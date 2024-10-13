@@ -1,5 +1,8 @@
 package com.ordertogether.team14_be.member.application.service;
 
+import com.ordertogether.team14_be.member.application.dto.MemberInfoRequest;
+import com.ordertogether.team14_be.member.application.dto.MemberInfoResponse;
+import com.ordertogether.team14_be.member.application.exception.NotFoundMember;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
 import com.ordertogether.team14_be.member.persistence.entity.Member;
 import jakarta.transaction.Transactional;
@@ -24,8 +27,42 @@ public class MemberService {
 								});
 	}
 
+	@Transactional
 	public Long getMemberId(String email) {
 		Member member = memberRepository.findByEmail(email).get();
 		return member.getId();
 	}
+
+	public MemberInfoResponse findMemberInfo(Long memberId) {
+		Member member = findMember(memberId);
+
+		return MemberInfoResponse.builder()
+				.deliveryName(member.getDeliveryName())
+				.phoneNumber(member.getPhoneNumber())
+				.point(member.getPoint())
+				.build();
+	}
+
+	public MemberInfoResponse modifyMember(Long memberId, MemberInfoRequest memberInfoRequest) {
+		Member member = findMember(memberId);
+		member.modifyMemberInfo(memberInfoRequest.deliveryName(), memberInfoRequest.phoneNumber());
+		return MemberInfoResponse.builder()
+				.deliveryName(member.getDeliveryName())
+				.phoneNumber(member.getPhoneNumber())
+				.point(member.getPoint())
+				.build();
+	}
+
+	@Transactional
+	public Member findMember(Long memberId) {
+		Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundMember());
+		return member;
+	}
+
+	@Transactional
+	public void deleteMember(Long memberId) {
+		memberRepository.deleteById(memberId);
+	}
+
+	public void registerMember() {}
 }
