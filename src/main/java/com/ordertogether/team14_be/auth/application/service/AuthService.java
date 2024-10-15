@@ -29,14 +29,17 @@ public class AuthService {
 
 	public ResponseEntity<ApiResponse<String>> kakaoLogin(String authorizationCode) {
 		String kakaoToken = kakaoClient.getAccessToken(authorizationCode); // 인가코드로부터 카카오토큰 발급
+		System.out.println(kakaoToken);
 		KakaoUserInfo kakaoUserInfo = kakaoClient.getUserInfo((kakaoToken));
+		System.out.println(kakaoUserInfo);
 		String userKakaoEmail = kakaoUserInfo.kakaoAccount().email(); // 와 사용자 카카오 이메일이야
+		System.out.println(userKakaoEmail);
 
 		Optional<Member> existMember = memberService.findMemberByEmail(userKakaoEmail);
+		System.out.println(existMember);
 		if (existMember.isPresent()) {
 			String serviceToken =
-					jwtUtil.generateToken(
-							memberService.getMemberId(existMember.get().getId().toString())); // 서비스 토큰 줘야징
+					jwtUtil.generateToken(memberService.getMemberId(userKakaoEmail)); // 서비스 토큰 줘야징
 			return ResponseEntity.ok((ApiResponse.with(HttpStatus.OK, "로그인 성공", serviceToken)));
 		} else {
 			return ResponseEntity.status(HttpStatus.FOUND)

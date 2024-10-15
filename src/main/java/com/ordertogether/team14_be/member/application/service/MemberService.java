@@ -7,6 +7,7 @@ import com.ordertogether.team14_be.member.application.exception.NotFoundMember;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
 import com.ordertogether.team14_be.member.persistence.entity.Member;
 import jakarta.transaction.Transactional;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,12 @@ public class MemberService {
 
 	@Transactional
 	public Long getMemberId(String email) {
-		Member member = memberRepository.findByEmail(email).get();
-		return member.getId();
+		//		Member member = memberRepository.findByEmail(email).get();
+		//		return member.getId();
+		return memberRepository
+				.findByEmail(email)
+				.map(Member::getId)
+				.orElseThrow(() -> new NoSuchElementException("Member with email " + email + " not found"));
 	}
 
 	public MemberInfoResponse findMemberInfo(Long memberId) {
