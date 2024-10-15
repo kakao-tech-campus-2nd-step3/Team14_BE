@@ -5,11 +5,11 @@ import com.ordertogether.team14_be.member.application.dto.MemberInfoResponse;
 import com.ordertogether.team14_be.member.application.exception.NotFoundMember;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
 import com.ordertogether.team14_be.member.persistence.entity.Member;
-import jakarta.transaction.Transactional;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	private final JwtUtil jwtUtil;
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public Long getMemberId(String email) {
 		return memberRepository
 				.findByEmail(email)
@@ -26,6 +26,7 @@ public class MemberService {
 				.orElseThrow(() -> new NoSuchElementException("Member with email " + email + " not found"));
 	}
 
+	@Transactional(readOnly = true)
 	public MemberInfoResponse findMemberInfo(Long memberId) {
 		Member member = findMember(memberId);
 
@@ -36,6 +37,7 @@ public class MemberService {
 				.build();
 	}
 
+	@Transactional
 	public MemberInfoResponse modifyMember(Long memberId, String deliveryName, String phoneNumber) {
 		Member member = findMember(memberId);
 		member.modifyMemberInfo(deliveryName, phoneNumber);
@@ -47,7 +49,7 @@ public class MemberService {
 				.build();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public Member findMember(Long memberId) {
 		Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundMember());
 		return member;
@@ -58,6 +60,7 @@ public class MemberService {
 		memberRepository.deleteById(memberId);
 	}
 
+	@Transactional(readOnly = true)
 	public Optional<Member> findMemberByEmail(String email) {
 		return memberRepository.findByEmail(email);
 	}
