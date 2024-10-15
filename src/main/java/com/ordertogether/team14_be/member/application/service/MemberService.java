@@ -20,21 +20,7 @@ public class MemberService {
 	private final JwtUtil jwtUtil;
 
 	@Transactional
-	public void findOrCreateMember(String email) {
-		Member member = memberRepository.findByEmail(email).get();
-		String token = jwtUtil.generateToken(member.getId());
-
-		//						.orElseGet(
-		//								() -> {
-		//									Member newMember = Member.from(email);
-		//									return memberRepository.saveAndFlush(newMember);
-		//								});
-	}
-
-	@Transactional
 	public Long getMemberId(String email) {
-		//		Member member = memberRepository.findByEmail(email).get();
-		//		return member.getId();
 		return memberRepository
 				.findByEmail(email)
 				.map(Member::getId)
@@ -71,8 +57,6 @@ public class MemberService {
 	public void deleteMember(Long memberId) {
 		memberRepository.deleteById(memberId);
 	}
-
-	public void registerMember() {}
 
 	public Optional<Member> findMemberByEmail(String email) {
 		return memberRepository.findByEmail(email);

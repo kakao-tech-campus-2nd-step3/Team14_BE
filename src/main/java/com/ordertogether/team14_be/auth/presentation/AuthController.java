@@ -26,7 +26,6 @@ public class AuthController {
 	}
 
 	@PostMapping("/signup")
-	//	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public ResponseEntity<ApiResponse<String>> signUpMember(
 			@RequestParam String email, @RequestBody MemberInfoRequest memberInfoRequest) {
 		return authService.register(
