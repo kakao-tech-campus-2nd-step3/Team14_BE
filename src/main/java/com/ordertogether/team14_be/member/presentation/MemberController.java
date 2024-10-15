@@ -32,7 +32,9 @@ public class MemberController {
 	@PutMapping("/{memberId}")
 	public ResponseEntity<ApiResponse<MemberInfoResponse>> modifyMemberInfo(
 			@PathVariable Long memberId, @RequestBody MemberInfoRequest memberInfoRequest) {
-		MemberInfoResponse data = memberService.modifyMember(memberId, memberInfoRequest);
+		MemberInfoResponse data =
+				memberService.modifyMember(
+						memberId, memberInfoRequest.deliveryName(), memberInfoRequest.phoneNumber());
 		return ResponseEntity.ok(ApiResponse.with(HttpStatus.OK, "회원 정보가 수정되었습니다.", data));
 	}
 

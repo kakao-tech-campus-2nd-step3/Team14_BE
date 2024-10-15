@@ -1,7 +1,6 @@
 package com.ordertogether.team14_be.member.application.service;
 
 import com.ordertogether.team14_be.auth.JwtUtil;
-import com.ordertogether.team14_be.member.application.dto.MemberInfoRequest;
 import com.ordertogether.team14_be.member.application.dto.MemberInfoResponse;
 import com.ordertogether.team14_be.member.application.exception.NotFoundMember;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
@@ -37,9 +36,9 @@ public class MemberService {
 				.build();
 	}
 
-	public MemberInfoResponse modifyMember(Long memberId, MemberInfoRequest memberInfoRequest) {
+	public MemberInfoResponse modifyMember(Long memberId, String deliveryName, String phoneNumber) {
 		Member member = findMember(memberId);
-		member.modifyMemberInfo(memberInfoRequest.deliveryName(), memberInfoRequest.phoneNumber());
+		member.modifyMemberInfo(deliveryName, phoneNumber);
 		memberRepository.saveAndFlush(member);
 		return MemberInfoResponse.builder()
 				.deliveryName(member.getDeliveryName())
