@@ -25,7 +25,7 @@ public class KakaoClient {
 		var response =
 				restClient
 						.post()
-						.uri(URI.create(kakaoProperties.tokenUrl()))
+						.uri(URI.create(kakaoProperties.authTokenUrl()))
 						.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 						.body(body)
 						.retrieve()

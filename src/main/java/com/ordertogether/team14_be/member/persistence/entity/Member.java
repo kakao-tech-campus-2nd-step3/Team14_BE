@@ -38,6 +38,12 @@ public class Member {
 		this.platform = platform;
 	}
 
+	public Member(String email, String phoneNumber, String deliveryName) {
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.deliveryName = deliveryName;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -46,3 +46,7 @@ key:
 
 jwt:
   expire-time: 1
+
+front:
+  page:
+    signup: ${FRONT_PAGE_SIGNUP}
