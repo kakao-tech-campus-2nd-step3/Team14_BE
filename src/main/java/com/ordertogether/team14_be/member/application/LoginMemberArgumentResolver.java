@@ -6,6 +6,7 @@ import com.ordertogether.team14_be.member.persistence.MemberRepository;
 import com.ordertogether.team14_be.member.presentation.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -34,7 +35,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 			WebDataBinderFactory binderFactory)
 			throws Exception {
 
-		String token = webRequest.getHeader("Authorization").substring(7);
+		String token = webRequest.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
 		String memberIdString = jwtUtil.decodeJwt(token).getSubject();
 		Long memberId = Long.parseLong(memberIdString);
 
