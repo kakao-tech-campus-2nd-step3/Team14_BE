@@ -40,6 +40,7 @@ public class MemberService {
 	public MemberInfoResponse modifyMember(Long memberId, MemberInfoRequest memberInfoRequest) {
 		Member member = findMember(memberId);
 		member.modifyMemberInfo(memberInfoRequest.deliveryName(), memberInfoRequest.phoneNumber());
+		memberRepository.saveAndFlush(member);
 		return MemberInfoResponse.builder()
 				.deliveryName(member.getDeliveryName())
 				.phoneNumber(member.getPhoneNumber())

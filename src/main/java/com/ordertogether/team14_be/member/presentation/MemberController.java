@@ -39,6 +39,6 @@ public class MemberController {
 	@DeleteMapping("/{memberId}") // 회원 탈퇴
 	public ResponseEntity<ApiResponse> deleteMember(@PathVariable Long memberId) {
 		memberService.deleteMember(memberId);
-		return ResponseEntity.ok(ApiResponse.with(HttpStatus.OK, "회원 정보가 수정되었습니다.", ""));
+		return ResponseEntity.ok(ApiResponse.with(HttpStatus.OK, "회원 정보가 삭제되었습니다.", ""));
 	}
 }
