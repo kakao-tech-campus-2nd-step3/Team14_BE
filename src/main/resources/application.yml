@@ -5,7 +5,6 @@ spring:
   datasource:
     driver-class-name: ${DRIVER_CLASS_NAME}
     username: ${USERNAME}
-    password:
     url: ${URL}
 
   jpa:
@@ -47,3 +46,7 @@ key:
 
 jwt:
   expire-time: 1
+
+front:
+  page:
+    signup: ${FRONT_PAGE_SIGNUP}

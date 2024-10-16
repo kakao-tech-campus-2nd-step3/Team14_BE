@@ -38,6 +38,12 @@ public class Member {
 		this.platform = platform;
 	}
 
+	public Member(String email, String phoneNumber, String deliveryName) {
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.deliveryName = deliveryName;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -62,13 +68,8 @@ public class Member {
 		return platform;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public static Member from(String email) {
-		Member member = new Member();
-		member.setEmail(email); // 이메일 설정
-		return member;
+	public void modifyMemberInfo(String deliveryName, String phoneNumber) {
+		this.deliveryName = deliveryName;
+		this.phoneNumber = phoneNumber;
 	}
 }
