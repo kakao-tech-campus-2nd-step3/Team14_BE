@@ -87,4 +87,9 @@ public class Member {
 		this.point += point;
 		return this.point;
 	}
+
+	public void modifyMemberInfo(String deliveryName, String phoneNumber) {
+		this.deliveryName = deliveryName;
+		this.phoneNumber = phoneNumber;
+	}
 }
