@@ -72,4 +72,9 @@ public class Member {
 		this.deliveryName = deliveryName;
 		this.phoneNumber = phoneNumber;
 	}
+
+	public void modifyMemberInfo(String deliveryName, String phoneNumber) {
+		this.deliveryName = deliveryName;
+		this.phoneNumber = phoneNumber;
+	}
 }
