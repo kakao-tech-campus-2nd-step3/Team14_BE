@@ -17,4 +17,8 @@ public class ApiResponse<T> {
 	public static <T> ApiResponse<T> with(HttpStatus httpStatus, String message, @Nullable T data) {
 		return new ApiResponse<>(httpStatus.value(), message, data);
 	}
+
+	public static <T> ApiResponse<T> with(HttpStatus httpStatus, String message) {
+		return new ApiResponse<>(httpStatus.value(), message, null);
+	}
 }
