@@ -13,4 +13,12 @@ public enum PaymentStatus {
 	FAIL("결제 실패");
 
 	private final String description;
+
+	public boolean isSuccess() {
+		return this == SUCCESS;
+	}
+
+	public boolean isFail() {
+		return this == FAIL;
+	}
 }
