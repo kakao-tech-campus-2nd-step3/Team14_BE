@@ -6,11 +6,15 @@ import com.ordertogether.team14_be.payment.persistence.jpa.entity.ProductEntity;
 import com.ordertogether.team14_be.payment.persistence.jpa.mapper.PaymentOrderMapper;
 import com.ordertogether.team14_be.payment.persistence.jpa.mapper.ProductMapper;
 import com.ordertogether.team14_be.payment.persistence.repository.PaymentOrderRepository;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class JpaPaymentOrderRepository implements PaymentOrderRepository {
 
 	private final SimpleJpaPaymentOrderRepository simpleJpaPaymentOrderRepository;
@@ -24,6 +28,7 @@ public class JpaPaymentOrderRepository implements PaymentOrderRepository {
 	 * @return 저장된 결제 주문 정보
 	 */
 	@Override
+	@Transactional
 	public PaymentOrder save(PaymentOrder paymentOrder) {
 		addMissingProductInfo(paymentOrder);
 		PaymentOrderEntity savedEntity =
@@ -40,6 +45,7 @@ public class JpaPaymentOrderRepository implements PaymentOrderRepository {
 	}
 
 	@Override
+	@Transactional
 	public List<PaymentOrder> saveAll(List<PaymentOrder> paymentOrders) {
 		List<PaymentOrderEntity> savedEntities =
 				simpleJpaPaymentOrderRepository.saveAll(
@@ -53,12 +59,27 @@ public class JpaPaymentOrderRepository implements PaymentOrderRepository {
 		return simpleJpaPaymentOrderRepository.findById(id).map(PaymentOrderMapper::mapToDomain);
 	}
 
+	@Override
+	public List<PaymentOrder> findByOrderId(String orderId) {
+		return simpleJpaPaymentOrderRepository.findByOrderId(orderId).stream()
+				.map(PaymentOrderMapper::mapToDomain)
+				.toList();
+	}
+
+	@Override
+	public BigDecimal getPaymentTotalAmount(String orderId) {
+		return simpleJpaPaymentOrderRepository
+				.getPaymentTotalAmount(orderId)
+				.orElseThrow(
+						() -> new NoSuchElementException("주문 번호: %s 에 해당하는 주문이 존재하지 않습니다.".formatted(orderId)));
+	}
+
 	private ProductEntity getProductEntity(PaymentOrder paymentOrder) {
 		return simpleJpaProductRepository
 				.findById(paymentOrder.getProductId())
 				.orElseThrow(
 						() ->
-								new IllegalArgumentException(
+								new NoSuchElementException(
 										String.format("상품 아이디 %s에 해당하는 상품이 없습니다.", paymentOrder.getProductId())));
 	}
 }
