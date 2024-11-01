@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class PointUpdateService {
+public class PointManagementService {
 
 	private final PaymentEventRepository paymentEventRepository;
 	private final MemberService memberService;

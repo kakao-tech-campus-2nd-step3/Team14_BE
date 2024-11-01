@@ -1,7 +1,6 @@
 package com.ordertogether.team14_be.payment.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.ordertogether.team14_be.helper.PaymentDatabaseHelper;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
@@ -16,9 +15,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles(profiles = "test")
-class PointUpdateServiceTest {
+class PointManagementServiceTest {
 
-	@Autowired PointUpdateService pointUpdateService;
+	@Autowired PointManagementService pointManagementService;
 
 	@Autowired MemberRepository memberRepository;
 	@Autowired PaymentEventRepository paymentEventRepository;
@@ -49,7 +48,7 @@ class PointUpdateServiceTest {
 						.totalAmount();
 
 		// when
-		pointUpdateService.increasePoint("test-order-id");
+		pointManagementService.increasePoint("test-order-id");
 
 		// then
 		int afterPoint =

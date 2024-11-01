@@ -38,7 +38,7 @@ class PaymentConfirmServiceTest {
 
 	@Autowired PaymentValidationService paymentValidationService;
 	@Autowired PaymentStatusUpdateService paymentStatusUpdateService;
-	@Autowired PointUpdateService pointUpdateService;
+	@Autowired PointManagementService pointManagementService;
 
 	@Autowired PaymentOrderRepository paymentOrderRepository;
 	@Autowired PaymentEventRepository paymentEventRepository;
@@ -54,7 +54,7 @@ class PaymentConfirmServiceTest {
 						tossPaymentsClient,
 						paymentValidationService,
 						paymentStatusUpdateService,
-						pointUpdateService);
+						pointManagementService);
 		paymentDatabaseHelper.clean();
 
 		paymentDatabaseHelper.setOrderId("test-order-id");

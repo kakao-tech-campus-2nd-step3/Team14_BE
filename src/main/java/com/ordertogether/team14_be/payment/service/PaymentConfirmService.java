@@ -19,7 +19,7 @@ public class PaymentConfirmService {
 
 	private final PaymentValidationService paymentValidationService;
 	private final PaymentStatusUpdateService paymentStatusUpdateService;
-	private final PointUpdateService pointUpdateService;
+	private final PointManagementService pointManagementService;
 
 	public PaymentConfirmationResponse confirm(PaymentConfirmRequest request) {
 		// 1. 결제 상태 변경 (준비 -> 실행 중)
@@ -34,7 +34,7 @@ public class PaymentConfirmService {
 				new PaymentStatusUpdateCommand(
 						request.paymentKey(), request.orderId(), response.paymentStatus()));
 		// 5. 포인트 충전
-		pointUpdateService.increasePoint(request.orderId());
+		pointManagementService.increasePoint(request.orderId());
 		return response;
 	}
 }
