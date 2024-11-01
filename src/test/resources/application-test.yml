@@ -42,6 +42,18 @@ kakao:
     api:
       url: ${KAKAO_USER_API_URL}
 
+pg:
+  toss:
+    secret-key: test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6
+    url: https://api.tosspayments.com
+
 key:
   jwt:
     secret-key: ${JWT_SECRET_KEY}
+
+jwt:
+  expire-time: 1
+
+front:
+  page:
+    signup: ${FRONT_PAGE_SIGNUP}
