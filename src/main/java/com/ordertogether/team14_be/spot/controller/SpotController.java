@@ -39,10 +39,10 @@ public class SpotController {
 	}
 
 	// 반경 n미터 내 Spot 조회하기
-	@GetMapping("/api/v1/spot/{lat}/{lng}/{radius}") // 현재 위치의 좌표와 반지름을 받아옴
-	public ResponseEntity<List<SpotViewedResponse>> getSpotByRadius(
-			@PathVariable BigDecimal lat, @PathVariable BigDecimal lng, @PathVariable int radius) {
-		return ResponseEntity.ok(spotService.getSpotByRadius(lat, lng, radius));
+	@GetMapping("/api/v1/spot/{lat}/{lng}") // 현재 위치의 좌표로 hash값이 같은 튜플을 조회
+	public ResponseEntity<List<SpotViewedResponse>> getSpotByGeoHash(
+			@PathVariable BigDecimal lat, @PathVariable BigDecimal lng) {
+		return ResponseEntity.ok(spotService.getSpotByGeoHash(lat, lng));
 	}
 
 	// Spot 수정하기

@@ -10,11 +10,15 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiResponse<T> {
 
-	private Integer status;
-	private String message;
-	private T data;
+	private final Integer status;
+	private final String message;
+	private final T data;
 
 	public static <T> ApiResponse<T> with(HttpStatus httpStatus, String message, @Nullable T data) {
 		return new ApiResponse<>(httpStatus.value(), message, data);
+	}
+
+	public static <T> ApiResponse<T> with(HttpStatus httpStatus, String message) {
+		return new ApiResponse<>(httpStatus.value(), message, null);
 	}
 }

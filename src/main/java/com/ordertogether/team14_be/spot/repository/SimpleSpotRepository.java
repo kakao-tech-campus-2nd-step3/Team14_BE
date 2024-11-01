@@ -22,4 +22,6 @@ public interface SimpleSpotRepository extends JpaRepository<Spot, Long> {
 			@Param("maxlng") BigDecimal maxlng,
 			@Param("minlat") BigDecimal minlat,
 			@Param("minlng") BigDecimal minlng);
+
+	List<Spot> findByGeoHash(String geoHash);
 }

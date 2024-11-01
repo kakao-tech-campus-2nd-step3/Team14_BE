@@ -4,6 +4,7 @@ import com.ordertogether.team14_be.spot.enums.Category;
 import jakarta.persistence.Column;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import lombok.*;
 
 @Builder
@@ -25,6 +26,8 @@ public class SpotDto {
 	private String togetherOrderLink;
 	private String pickUpLocation;
 	private String deliveryStatus;
+	private LocalTime deadlineTime;
+	@Setter private String geoHash;
 	private boolean isDeleted;
 	private LocalDateTime createdAt;
 	private LocalDateTime modifiedAt;

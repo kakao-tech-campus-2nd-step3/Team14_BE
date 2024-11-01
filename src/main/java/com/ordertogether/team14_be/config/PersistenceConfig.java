@@ -27,8 +27,12 @@ public class PersistenceConfig {
 
 	@Bean
 	public PaymentEventRepository paymentEventRepository(
-			SimpleJpaPaymentEventRepository simpleJpaPaymentEventRepository) {
-		return new JpaPaymentEventRepository(simpleJpaPaymentEventRepository);
+			SimpleJpaPaymentEventRepository simpleJpaPaymentEventRepository,
+			SimpleJpaPaymentOrderRepository simpleJpaPaymentOrderRepository,
+			SimpleJpaProductRepository simpleJpaProductRepository) {
+		return new JpaPaymentEventRepository(
+				simpleJpaPaymentEventRepository,
+				paymentOrderRepository(simpleJpaPaymentOrderRepository, simpleJpaProductRepository));
 	}
 
 	@Bean

@@ -42,6 +42,7 @@ dependencies {
     implementation "io.jsonwebtoken:jjwt-api:${jjwt_version}"
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${swagger_version}"
     implementation 'org.mapstruct:mapstruct:1.6.2'
+    implementation 'ch.hsr:geohash:1.4.0'
 
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.2'
 

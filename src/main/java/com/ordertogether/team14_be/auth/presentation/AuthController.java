@@ -1,9 +1,17 @@
 package com.ordertogether.team14_be.auth.presentation;
 
 import com.ordertogether.team14_be.auth.application.service.AuthService;
+import com.ordertogether.team14_be.auth.application.service.KakaoAuthService;
 import com.ordertogether.team14_be.common.web.response.ApiResponse;
 import com.ordertogether.team14_be.member.application.dto.MemberInfoRequest;
-import lombok.RequiredArgsConstructor;
+import com.ordertogether.team14_be.member.application.service.MemberService;
+import com.ordertogether.team14_be.member.persistence.entity.Member;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,16 +21,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
 	private final AuthService authService;
+	private final KakaoAuthService kakaoAuthService;
+	private final String redirectPage;
+	private final MemberService memberService;
+
+	public AuthController(
+			AuthService authService,
+			KakaoAuthService kakaoAuthService,
+			MemberService memberService,
+			@Value("${FRONT_PAGE_SIGNUP}") String redirectPage) {
+		this.authService = authService;
+		this.kakaoAuthService = kakaoAuthService;
+		this.memberService = memberService;
+		this.redirectPage = redirectPage;
+	}
 
 	@GetMapping("/login")
 	public ResponseEntity<ApiResponse<String>> getToken(@RequestHeader String authorizationCode) {
-		return authService.kakaoLogin(authorizationCode);
+		String userKakaoEmail = kakaoAuthService.getKakaoUserEmail(authorizationCode);
+		Optional<Member> existMember = memberService.findMemberByEmail(userKakaoEmail);
+		if (existMember.isPresent()) {
+			return ResponseEntity.ok(
+					ApiResponse.with(HttpStatus.OK, "로그인 성공", authService.getServiceToken(userKakaoEmail)));
+
+		} else {
+			return ResponseEntity.status(HttpStatus.FOUND)
+					.location(
+							URI.create(redirectPage + URLEncoder.encode(userKakaoEmail, StandardCharsets.UTF_8)))
+					.build();
+		}
+	}
+
+	@PostMapping("/signup")
+	public ResponseEntity<ApiResponse<String>> signUpMember(
+			@RequestParam String email, @RequestBody MemberInfoRequest memberInfoRequest) {
+		String serviceToken =
+				authService.register(
+						email, memberInfoRequest.deliveryName(), memberInfoRequest.phoneNumber());
+		return ResponseEntity.ok(ApiResponse.with(HttpStatus.OK, "로그인 성공", serviceToken));
 	}
 
 	@PostMapping("/signup")
