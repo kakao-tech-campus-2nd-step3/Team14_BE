@@ -21,6 +21,7 @@ public class PaymentConfirmService {
 	private final PaymentStatusUpdateService paymentStatusUpdateService;
 	private final PointManagementService pointManagementService;
 
+
 	public PaymentConfirmationResponse confirm(PaymentConfirmRequest request) {
 		// 1. 결제 상태 변경 (준비 -> 실행 중)
 		paymentStatusUpdateService.updatePaymentStatusToExecuting(

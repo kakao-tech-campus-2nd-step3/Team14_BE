@@ -55,6 +55,7 @@ class PaymentConfirmServiceTest {
 						paymentValidationService,
 						paymentStatusUpdateService,
 						pointManagementService);
+
 		paymentDatabaseHelper.clean();
 
 		paymentDatabaseHelper.setOrderId("test-order-id");
