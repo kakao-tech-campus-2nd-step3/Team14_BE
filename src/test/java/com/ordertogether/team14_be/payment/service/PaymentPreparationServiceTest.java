@@ -54,7 +54,7 @@ class PaymentPreparationServiceTest {
 		assertThat(response.paymentOrders()).hasSize(3);
 		assertThat(response.orderId()).isNotNull();
 		assertThat(response.orderName()).isEqualTo("Product 1,Product 2,Product 3");
-		assertThat(response.paymentKey()).isNotNull();
+		assertThat(response.paymentKey()).isNull();
 		response.paymentOrders().stream()
 				.forEach(
 						paymentOrder -> {
