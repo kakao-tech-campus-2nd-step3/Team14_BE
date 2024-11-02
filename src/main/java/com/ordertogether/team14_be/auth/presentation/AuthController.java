@@ -11,7 +11,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,9 +48,22 @@ public class AuthController {
 		String userKakaoEmail = kakaoAuthService.getKakaoUserEmail(authorizationCode);
 		Optional<Member> existMember = memberService.findMemberByEmail(userKakaoEmail);
 		if (existMember.isPresent()) {
-			return ResponseEntity.ok(
-					ApiResponse.with(HttpStatus.OK, "로그인 성공", authService.getServiceToken(userKakaoEmail)));
+			String serviceToken = authService.getServiceToken(userKakaoEmail);
 
+			ResponseCookie cookie =
+					ResponseCookie.from("serviceToken", serviceToken)
+							.httpOnly(true)
+							.secure(true)
+							.path("/")
+							.sameSite("Strict")
+							.build();
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+
+			return ResponseEntity.ok()
+					.headers(headers)
+					.body(ApiResponse.with(HttpStatus.OK, "로그인 성공", serviceToken));
 		} else {
 			return ResponseEntity.status(HttpStatus.FOUND)
 					.location(
@@ -63,6 +78,20 @@ public class AuthController {
 		String serviceToken =
 				authService.register(
 						email, memberInfoRequest.deliveryName(), memberInfoRequest.phoneNumber());
-		return ResponseEntity.ok(ApiResponse.with(HttpStatus.OK, "로그인 성공", serviceToken));
+
+		ResponseCookie cookie =
+				ResponseCookie.from("serviceToken", serviceToken)
+						.httpOnly(true)
+						.secure(true)
+						.path("/")
+						.sameSite("Strict")
+						.build();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(ApiResponse.with(HttpStatus.OK, "회원가입 성공", serviceToken));
 	}
 }
