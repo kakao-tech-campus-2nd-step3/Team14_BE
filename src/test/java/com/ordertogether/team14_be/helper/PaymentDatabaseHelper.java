@@ -5,6 +5,4 @@ public interface PaymentDatabaseHelper {
 	void clean();
 
 	void saveTestData();
-
-	void setOrderId(String orderId);
 }
