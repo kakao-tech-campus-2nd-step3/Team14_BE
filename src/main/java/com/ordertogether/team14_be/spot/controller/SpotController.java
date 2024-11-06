@@ -16,13 +16,6 @@ public class SpotController {
 
 	private final SpotService spotService;
 
-	// Spot 전체 조회하기
-	@GetMapping("/api/v1/spot/{lat}/{lng}")
-	public ResponseEntity<List<SpotViewedResponse>> getSpot(
-			@PathVariable BigDecimal lat, @PathVariable BigDecimal lng) {
-		return ResponseEntity.ok(spotService.getSpot(lat, lng));
-	}
-
 	// Spot 생성하기
 	@PostMapping("/api/v1/spot")
 	public ResponseEntity<SpotCreationResponse> createSpot(
