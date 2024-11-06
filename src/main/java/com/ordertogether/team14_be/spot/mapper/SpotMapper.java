@@ -3,9 +3,8 @@ package com.ordertogether.team14_be.spot.mapper;
 import com.ordertogether.team14_be.spot.dto.controllerdto.*;
 import com.ordertogether.team14_be.spot.dto.servicedto.SpotDto;
 import com.ordertogether.team14_be.spot.entity.Spot;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.ReportingPolicy;
+import com.ordertogether.team14_be.spot.enums.Category;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(
@@ -22,13 +21,24 @@ public interface SpotMapper {
 
 	Spot toEntity(SpotDto spotDto, @MappingTarget Spot spot); // 생성 또는 수정할 때 사용
 
+	@Mapping(target = "category", expression = "java(spotDto.getCategory().getCode())")
 	SpotCreationResponse toSpotCreationResponse(SpotDto spotDto);
 
+	@Mapping(target = "category", expression = "java(spotDto.getCategory().getCode())")
 	SpotDetailResponse toSpotDetailResponse(SpotDto spotDto);
 
+	@Mapping(target = "category", expression = "java(spotDto.getCategory().getCode())")
 	SpotViewedResponse toSpotViewedResponse(SpotDto spotDto);
 
 	SpotModifyRequest toSpotModifyRequest(SpotDto spotDto);
 
 	SpotDto toSpotDto(SpotModifyRequest spotModifyRequest);
+
+	@AfterMapping
+	default void mapToCategory(
+			SpotCreationRequest spotCreationRequest, @MappingTarget SpotDto spotDto) {
+		spotDto.setCategory(
+				Category.fromStringToEnum(spotCreationRequest.category())
+						.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다.")));
+	}
 }
