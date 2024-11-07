@@ -31,6 +31,12 @@ public class AbstractCodedEnumConverter<T extends Enum<T> & CodedEnum<E>, E>
 		if (Objects.isNull(dbData)) {
 			return null;
 		}
+		T asdfsdf =
+				Arrays.stream(clazz.getEnumConstants())
+						.filter(e -> e.getCode().equals(dbData))
+						.findFirst()
+						.orElseThrow(() -> new IllegalArgumentException("Unknown code: " + dbData));
+		System.out.println(asdfsdf.name());
 		return Arrays.stream(clazz.getEnumConstants())
 				.filter(e -> e.getCode().equals(dbData))
 				.findFirst()

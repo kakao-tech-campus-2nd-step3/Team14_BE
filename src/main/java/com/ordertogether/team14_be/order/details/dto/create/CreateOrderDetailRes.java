@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class CreateOrderDetailResponseDto {
+public class CreateOrderDetailRes {
 	private Long id;
 	private int price;
 	private boolean isPayed;
