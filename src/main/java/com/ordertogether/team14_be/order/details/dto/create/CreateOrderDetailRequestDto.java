@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class CreateOrderDetailReq {
+public class CreateOrderDetailRequestDto {
 	private int price;
 	private boolean isPayed;
 	private Long participantId; // 참여자 아이디
