@@ -94,11 +94,4 @@ public class AuthController {
 				.headers(headers)
 				.body(ApiResponse.with(HttpStatus.OK, "회원가입 성공", serviceToken));
 	}
-
-	@PostMapping("/signup")
-	public ResponseEntity<ApiResponse<String>> signUpMember(
-			@RequestParam String email, @RequestBody MemberInfoRequest memberInfoRequest) {
-		return authService.register(
-				email, memberInfoRequest.deliveryName(), memberInfoRequest.phoneNumber());
-	}
 }

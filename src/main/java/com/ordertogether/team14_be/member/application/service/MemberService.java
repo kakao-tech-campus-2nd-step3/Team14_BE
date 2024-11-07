@@ -1,5 +1,6 @@
 package com.ordertogether.team14_be.member.application.service;
 
+import com.ordertogether.team14_be.auth.JwtUtil;
 import com.ordertogether.team14_be.member.application.dto.MemberInfoResponse;
 import com.ordertogether.team14_be.member.application.exception.NotFoundMember;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
@@ -16,25 +17,6 @@ public class MemberService {
 
 	private final MemberRepository memberRepository;
 	private final JwtUtil jwtUtil;
-
-	@Transactional(readOnly = true)
-	public Long getMemberId(String email) {
-		return memberRepository
-				.findByEmail(email)
-				.map(Member::getId)
-				.orElseThrow(() -> new NoSuchElementException("Member with email " + email + " not found"));
-	}
-
-	@Transactional(readOnly = true)
-	public MemberInfoResponse findMemberInfo(Long memberId) {
-		Member member = findMember(memberId);
-
-		return MemberInfoResponse.builder()
-				.deliveryName(member.getDeliveryName())
-				.phoneNumber(member.getPhoneNumber())
-				.point(member.getPoint())
-				.build();
-	}
 
 	@Transactional(readOnly = true)
 	public Long getMemberId(String email) {
