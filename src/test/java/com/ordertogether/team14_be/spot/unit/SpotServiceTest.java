@@ -11,7 +11,6 @@ import com.ordertogether.team14_be.spot.dto.servicedto.SpotDto;
 import com.ordertogether.team14_be.spot.entity.Spot;
 import com.ordertogether.team14_be.spot.enums.Category;
 import com.ordertogether.team14_be.spot.exception.NotSpotMasterException;
-import com.ordertogether.team14_be.spot.mapper.SpotMapper;
 import com.ordertogether.team14_be.spot.repository.SpotRepository;
 import com.ordertogether.team14_be.spot.service.SpotService;
 import java.math.BigDecimal;
@@ -22,15 +21,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class SpotServiceTest {
 
 	@Mock private SpotRepository spotRepository;
-
-	@Spy private SpotMapper spotMapper;
 
 	@InjectMocks private SpotService spotService;
 
@@ -65,6 +61,7 @@ class SpotServiceTest {
 		List<SpotViewedResponse> result = spotService.getSpot(lat, lng);
 
 		assertNotNull(result);
+		assertEquals(1, result.size());
 		assertEquals("패스트푸드", result.getFirst().category());
 		assertEquals("맥도날드", result.getFirst().storeName());
 		assertEquals(12000, result.getFirst().minimumOrderAmount());
@@ -74,16 +71,19 @@ class SpotServiceTest {
 
 	@Test
 	void createSpot_success() {
-		SpotCreationResponse expectedResponse =
-				new SpotCreationResponse(1L, "패스트푸드", "맥도날드", 12000, "픽업위치", LocalTime.of(12, 0, 0));
-
-		// Mocking the repository and mapper responses
 		when(spotRepository.save(any(Spot.class))).thenReturn(spotDto);
 
 		SpotCreationResponse response = spotService.createSpot(spotDto);
 
 		assertNotNull(response);
-		assertEquals(expectedResponse, response);
+		System.out.println(response);
+		assertEquals(spotDto.getId(), response.id());
+		assertEquals(spotDto.getCategory().getCode(), response.category());
+		assertEquals(spotDto.getStoreName(), response.storeName());
+		assertEquals(spotDto.getMinimumOrderAmount(), response.minimumOrderAmount());
+		assertEquals(spotDto.getPickUpLocation(), response.pickUpLocation());
+		assertEquals(spotDto.getDeadlineTime(), response.deadlineTime());
+
 		verify(spotRepository).save(any(Spot.class));
 	}
 

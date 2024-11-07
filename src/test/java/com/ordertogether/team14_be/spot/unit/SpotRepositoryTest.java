@@ -8,16 +8,19 @@ import com.ordertogether.team14_be.spot.dto.servicedto.SpotDto;
 import com.ordertogether.team14_be.spot.entity.Spot;
 import com.ordertogether.team14_be.spot.enums.Category;
 import com.ordertogether.team14_be.spot.exception.SpotNotFoundException;
+import com.ordertogether.team14_be.spot.mapper.SpotMapper;
 import com.ordertogether.team14_be.spot.repository.SimpleSpotRepository;
 import com.ordertogether.team14_be.spot.repository.SpotRepository;
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +29,8 @@ class SpotRepositoryTest {
 	@InjectMocks private SpotRepository spotRepository;
 
 	@Mock private SimpleSpotRepository simpleSpotRepository;
+
+	@Spy private SpotMapper spotMapper;
 
 	private BigDecimal lat;
 	private BigDecimal lng;
@@ -87,10 +92,39 @@ class SpotRepositoryTest {
 	@Test
 	void findByIdAndIsDeletedFalse_exception() {
 		when(simpleSpotRepository.findByIdAndIsDeletedFalse(1L)).thenReturn(Optional.empty());
-		// todo: 테스트 추가
-		assertThat(spotRepository.findByIdAndIsDeletedFalse(1L)).isNull();
+
 		assertThrows(SpotNotFoundException.class, () -> spotRepository.findByIdAndIsDeletedFalse(1L));
 	}
 
-	// todo : 테스트 추가
+	@Test
+	void findByLatAndLngAndIsDeletedFalse_success() {
+		when(simpleSpotRepository.findByLatAndLngAndIsDeletedFalse(lat, lng)).thenReturn(List.of(spot));
+
+		List<SpotDto> spotDto = spotRepository.findByLatAndLngAndIsDeletedFalse(lat, lng);
+		assertThat(spotDto.getFirst().getId()).isEqualTo(1L);
+		assertThat(spotDto.getFirst().getLat()).isEqualTo(lat);
+		assertThat(spotDto.getFirst().getLng()).isEqualTo(lng);
+		assertThat(spotDto.getFirst().getCategory()).isEqualTo(Category.BURGER);
+		assertThat(spotDto.getFirst().getStoreName()).isEqualTo("맥도날드");
+		assertThat(spotDto.getFirst().getMinimumOrderAmount()).isEqualTo(12000);
+		assertThat(spotDto.getFirst().getDeadlineTime()).isEqualTo(LocalTime.of(12, 0, 0));
+		assertThat(spotDto.getFirst().getPickUpLocation()).isEqualTo("픽업위치");
+		assertThat(spotDto.getFirst().getCreatedBy()).isEqualTo(1L);
+	}
+
+	@Test
+	void findBygeoHash_success() {
+		when(simpleSpotRepository.findByGeoHash("9q8yyz")).thenReturn(List.of(spot));
+
+		List<SpotDto> spotDto = spotRepository.findBygeoHash("9q8yyz");
+		assertThat(spotDto.getFirst().getId()).isEqualTo(1L);
+		assertThat(spotDto.getFirst().getLat()).isEqualTo(lat);
+		assertThat(spotDto.getFirst().getLng()).isEqualTo(lng);
+		assertThat(spotDto.getFirst().getCategory()).isEqualTo(Category.BURGER);
+		assertThat(spotDto.getFirst().getStoreName()).isEqualTo("맥도날드");
+		assertThat(spotDto.getFirst().getMinimumOrderAmount()).isEqualTo(12000);
+		assertThat(spotDto.getFirst().getDeadlineTime()).isEqualTo(LocalTime.of(12, 0, 0));
+		assertThat(spotDto.getFirst().getPickUpLocation()).isEqualTo("픽업위치");
+		assertThat(spotDto.getFirst().getCreatedBy()).isEqualTo(1L);
+	}
 }
