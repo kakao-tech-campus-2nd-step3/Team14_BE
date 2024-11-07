@@ -21,12 +21,15 @@ public interface SpotMapper {
 
 	Spot toEntity(SpotDto spotDto, @MappingTarget Spot spot); // 생성 또는 수정할 때 사용
 
+	@BeanMapping(ignoreByDefault = false) // 자동 매핑 활성화
 	@Mapping(target = "category", expression = "java(spotDto.getCategory().getCode())")
 	SpotCreationResponse toSpotCreationResponse(SpotDto spotDto);
 
+	@BeanMapping(ignoreByDefault = false) // 자동 매핑 활성화
 	@Mapping(target = "category", expression = "java(spotDto.getCategory().getCode())")
 	SpotDetailResponse toSpotDetailResponse(SpotDto spotDto);
 
+	@BeanMapping(ignoreByDefault = false) // 자동 매핑 활성화
 	@Mapping(target = "category", expression = "java(spotDto.getCategory().getCode())")
 	SpotViewedResponse toSpotViewedResponse(SpotDto spotDto);
 
