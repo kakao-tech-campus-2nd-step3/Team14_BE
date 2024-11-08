@@ -27,16 +27,12 @@ public enum Category implements CodedEnum<String> {
 	BURGER("015", "패스트푸드");
 
 	private final String code;
-	private final String category;
-
-	public String getCode() {
-		return category;
-	}
+	private final String stringCategory;
 
 	// 한글 설명(String)을 ENUM으로 변환
 	public static Optional<Category> fromStringToEnum(String category) {
 		return Arrays.stream(Category.values())
-				.filter(c -> c.getCategory().equals(category))
+				.filter(c -> c.getStringCategory().equals(category))
 				.findFirst();
 	}
 

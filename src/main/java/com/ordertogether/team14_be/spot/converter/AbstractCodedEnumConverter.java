@@ -1,9 +1,6 @@
 package com.ordertogether.team14_be.spot.converter;
 
 import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Converter;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -22,7 +19,7 @@ public abstract class AbstractCodedEnumConverter<T extends Enum<T> & CodedEnum<E
 	public E convertToDatabaseColumn(
 			T attribute) { // Converts the value stored in the entity attribute into the data
 		// representation to be stored in the database.
-		return attribute.getCode(); // 코드 저장 ex) KOREAN_STEW -> "찜, 탕, 찌개"
+		return attribute.getCode(); // 코드 저장 ex) KOREAN_STEW -> "002"
 	}
 
 	// DB값을 Entity의 enum값으로 변환하는 방식을 정의
