@@ -102,4 +102,19 @@ public class AuthController {
 				.headers(headers)
 				.body(ApiResponse.with(HttpStatus.OK, "회원가입 성공", serviceToken));
 	}
+
+	@PostMapping("/logout")
+	public void logout(HttpServletResponse response) {
+		ResponseCookie deleteCookie =
+				ResponseCookie.from("serviceToken", "")
+						.maxAge(0)
+						.httpOnly(true)
+						.secure(true)
+						.path("/")
+						.sameSite("Strict")
+						.build();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.SET_COOKIE, deleteCookie.toString());
+	}
 }
