@@ -69,8 +69,7 @@ public class AuthController {
 					.headers(headers)
 					.body(ApiResponse.with(HttpStatus.OK, "로그인 성공", serviceToken));
 		} else {
-			String redirectPage = "http://localhost:3000/signup";
-			String redirectUrl = redirectPage + "?email=" + userKakaoEmail;
+			String redirectUrl = redirectPage + userKakaoEmail;
 			try {
 				httpServletResponse.sendRedirect(redirectUrl);
 			} catch (IOException e) {
