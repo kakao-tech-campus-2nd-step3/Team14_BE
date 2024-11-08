@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/api/v1/auth")
 public class AuthController {
-
 	private final AuthService authService;
 	private final KakaoAuthService kakaoAuthService;
 	private final String redirectPage;
@@ -103,7 +102,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/logout")
-	public void logout(HttpServletResponse response) {
+	public ResponseEntity<ApiResponse<String>> logout(HttpServletResponse response) {
 		ResponseCookie deleteCookie =
 				ResponseCookie.from("serviceToken", "")
 						.maxAge(0)
@@ -115,5 +114,9 @@ public class AuthController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.SET_COOKIE, deleteCookie.toString());
+
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(ApiResponse.with(HttpStatus.OK, "회원가입 성공", ""));
 	}
 }
