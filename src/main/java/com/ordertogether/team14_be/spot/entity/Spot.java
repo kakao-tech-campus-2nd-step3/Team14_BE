@@ -2,7 +2,6 @@ package com.ordertogether.team14_be.spot.entity;
 
 import com.ordertogether.team14_be.common.persistence.entity.BaseEntity;
 import com.ordertogether.team14_be.member.persistence.entity.Member;
-import com.ordertogether.team14_be.spot.converter.AbstractCodedEnumConverter;
 import com.ordertogether.team14_be.spot.converter.CategoryConverter;
 import com.ordertogether.team14_be.spot.enums.Category;
 import jakarta.persistence.*;
