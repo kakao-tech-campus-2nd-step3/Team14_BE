@@ -1,7 +1,9 @@
-package com.ordertogether.team14_be.auth;
+package com.ordertogether.team14_be.auth.persistence;
 
+import com.ordertogether.team14_be.auth.persistence.exception.InvalidToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
@@ -37,5 +39,18 @@ public class JwtUtil {
 
 	public Claims decodeJwt(String token) {
 		return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+	}
+
+	public boolean vaildToken(String token) throws InvalidToken {
+		try {
+			Claims claims =
+					Jwts.parser()
+							.setSigningKey(key)
+							.parseClaimsJws(token) // 토큰 파싱
+							.getBody();
+			return true; // 유효하다면 true 반환
+		} catch (MalformedJwtException e) {
+			throw new InvalidToken();
+		}
 	}
 }
