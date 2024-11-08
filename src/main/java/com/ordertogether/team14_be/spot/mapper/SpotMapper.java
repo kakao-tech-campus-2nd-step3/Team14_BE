@@ -15,6 +15,7 @@ public interface SpotMapper {
 
 	SpotDto toDto(Spot spot);
 
+	@Mapping(target = "category", ignore = true) // category는 무시
 	SpotDto toSpotDto(SpotCreationRequest spotCreationRequest);
 
 	Spot toEntity(SpotDto spotDto);
@@ -22,19 +23,20 @@ public interface SpotMapper {
 	Spot toEntity(SpotDto spotDto, @MappingTarget Spot spot); // 생성 또는 수정할 때 사용
 
 	@BeanMapping(ignoreByDefault = false) // 자동 매핑 활성화
-	@Mapping(target = "category", expression = "java(spotDto.getCategory().getCode())")
+	@Mapping(target = "category", expression = "java(spotDto.getCategory().getStringCategory())")
 	SpotCreationResponse toSpotCreationResponse(SpotDto spotDto);
 
 	@BeanMapping(ignoreByDefault = false) // 자동 매핑 활성화
-	@Mapping(target = "category", expression = "java(spotDto.getCategory().getCode())")
+	@Mapping(target = "category", expression = "java(spotDto.getCategory().getStringCategory())")
 	SpotDetailResponse toSpotDetailResponse(SpotDto spotDto);
 
 	@BeanMapping(ignoreByDefault = false) // 자동 매핑 활성화
-	@Mapping(target = "category", expression = "java(spotDto.getCategory().getCode())")
+	@Mapping(target = "category", expression = "java(spotDto.getCategory().getStringCategory())")
 	SpotViewedResponse toSpotViewedResponse(SpotDto spotDto);
 
 	SpotModifyRequest toSpotModifyRequest(SpotDto spotDto);
 
+	@Mapping(target = "category", ignore = true) // category는 무시
 	SpotDto toSpotDto(SpotModifyRequest spotModifyRequest);
 
 	@AfterMapping
