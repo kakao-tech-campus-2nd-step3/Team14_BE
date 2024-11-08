@@ -78,7 +78,7 @@ class SpotServiceTest {
 		assertNotNull(response);
 		System.out.println(response);
 		assertEquals(spotDto.getId(), response.id());
-		assertEquals(spotDto.getCategory().getCode(), response.category());
+		assertEquals(spotDto.getCategory().getStringCategory(), response.category());
 		assertEquals(spotDto.getStoreName(), response.storeName());
 		assertEquals(spotDto.getMinimumOrderAmount(), response.minimumOrderAmount());
 		assertEquals(spotDto.getPickUpLocation(), response.pickUpLocation());
