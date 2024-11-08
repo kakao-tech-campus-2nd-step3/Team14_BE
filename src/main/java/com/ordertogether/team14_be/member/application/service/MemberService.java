@@ -1,5 +1,6 @@
 package com.ordertogether.team14_be.member.application.service;
 
+import com.ordertogether.team14_be.auth.JwtUtil;
 import com.ordertogether.team14_be.member.application.dto.MemberInfoResponse;
 import com.ordertogether.team14_be.member.application.exception.NotFoundMember;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
 	private final MemberRepository memberRepository;
+	private final JwtUtil jwtUtil;
 
 	@Transactional(readOnly = true)
 	public Long getMemberId(String email) {

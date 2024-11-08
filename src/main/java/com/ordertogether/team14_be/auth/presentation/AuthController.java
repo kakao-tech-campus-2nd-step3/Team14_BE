@@ -117,6 +117,6 @@ public class AuthController {
 
 		return ResponseEntity.ok()
 				.headers(headers)
-				.body(ApiResponse.with(HttpStatus.OK, "회원가입 성공", ""));
+				.body(ApiResponse.with(HttpStatus.OK, " 성공", ""));
 	}
 }

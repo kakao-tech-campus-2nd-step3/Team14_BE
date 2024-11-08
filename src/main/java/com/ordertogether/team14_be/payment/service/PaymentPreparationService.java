@@ -50,15 +50,16 @@ public class PaymentPreparationService {
 	 */
 	private void validateDuplicatePayment(PaymentPrepareRequest request) {
 		String idempotentKey = IdempotentKeyGenerator.generate(request.getIdempotencySeed());
+
 		paymentEventRepository
 				.findByOrderId(idempotentKey)
 				.ifPresent(
-						paymentEvent -> {
+						duplicatedPaymentEvent -> {
 							throw new IllegalArgumentException(
 									"Seed: %s 를 통해 생성된 결제는 이미 %s 상태인 주문입니다."
 											.formatted(
 													request.getIdempotencySeed(),
-													paymentEvent.getPaymentStatus().getDescription()));
+													duplicatedPaymentEvent.getPaymentStatus().getDescription()));
 						});
 	}
 
@@ -84,7 +85,6 @@ public class PaymentPreparationService {
 						products.stream().map(product -> createPaymentOrder(product, idempotencySeed)).toList())
 				.orderId(IdempotentKeyGenerator.generate(idempotencySeed))
 				.orderName(createOrderName(products))
-				.paymentKey(IdempotentKeyGenerator.generate(idempotencySeed))
 				.build();
 	}
 

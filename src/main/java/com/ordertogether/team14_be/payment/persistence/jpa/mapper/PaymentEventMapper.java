@@ -1,7 +1,9 @@
 package com.ordertogether.team14_be.payment.persistence.jpa.mapper;
 
 import com.ordertogether.team14_be.payment.domain.PaymentEvent;
+import com.ordertogether.team14_be.payment.domain.PaymentOrder;
 import com.ordertogether.team14_be.payment.persistence.jpa.entity.PaymentEventEntity;
+import java.util.List;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -18,14 +20,16 @@ public final class PaymentEventMapper {
 				.build();
 	}
 
-	public static PaymentEvent mapToDomain(PaymentEventEntity entity) {
+	public static PaymentEvent mapToDomain(
+			PaymentEventEntity paymentEventEntity, List<PaymentOrder> paymentOrders) {
 		return PaymentEvent.builder()
-				.id(entity.getId())
-				.buyerId(entity.getBuyerId())
-				.orderId(entity.getOrderId())
-				.orderName(entity.getOrderName())
-				.paymentKey(entity.getPaymentKey())
-				.paymentStatus(entity.getPaymentStatus())
+				.id(paymentEventEntity.getId())
+				.buyerId(paymentEventEntity.getBuyerId())
+				.paymentOrders(paymentOrders)
+				.orderId(paymentEventEntity.getOrderId())
+				.orderName(paymentEventEntity.getOrderName())
+				.paymentKey(paymentEventEntity.getPaymentKey())
+				.paymentStatus(paymentEventEntity.getPaymentStatus())
 				.build();
 	}
 }

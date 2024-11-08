@@ -41,10 +41,9 @@ public class SpotRepository {
 		spot.delete();
 	}
 
-	public List<SpotDto> findAroundSpotAndIsDeletedFalse(
-			BigDecimal maxX, BigDecimal maxY, BigDecimal minX, BigDecimal minY) {
-		List<Spot> spots = simpleSpotRepository.findAroundSpotAndIsDeletedFalse(maxX, maxY, minX, minY);
-
-		return spots.stream().map(SpotMapper.INSTANCE::toDto).toList();
+	public List<SpotDto> findBygeoHash(String geoHash) {
+		return simpleSpotRepository.findByGeoHash(geoHash).stream()
+				.map(SpotMapper.INSTANCE::toDto)
+				.toList();
 	}
 }

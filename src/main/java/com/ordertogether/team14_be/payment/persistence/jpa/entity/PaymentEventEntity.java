@@ -40,7 +40,6 @@ public class PaymentEventEntity extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String orderName;
 
-	@Column(nullable = false)
 	private String paymentKey; // PSP 결제 식별자
 
 	@Builder.Default

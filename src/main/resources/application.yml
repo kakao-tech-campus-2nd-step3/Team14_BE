@@ -13,6 +13,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
     defer-datasource-initialization: true
 
   sql:
@@ -39,6 +40,11 @@ kakao:
   user:
     api:
       url: ${KAKAO_USER_API_URL}
+
+pg:
+  toss:
+    secret-key: test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6
+    url: https://api.tosspayments.com
 
 key:
   jwt:
