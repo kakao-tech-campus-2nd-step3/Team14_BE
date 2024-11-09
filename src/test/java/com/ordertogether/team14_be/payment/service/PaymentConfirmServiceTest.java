@@ -57,8 +57,6 @@ class PaymentConfirmServiceTest {
 						pointManagementService);
 
 		paymentDatabaseHelper.clean();
-
-		paymentDatabaseHelper.setOrderId("test-order-id");
 		paymentDatabaseHelper.saveTestData();
 	}
 
@@ -75,7 +73,7 @@ class PaymentConfirmServiceTest {
 		long chargeAmount = 60000L;
 		PaymentConfirmRequest request =
 				PaymentConfirmRequest.builder()
-						.orderId("test-order-id")
+						.orderId("test-order-id-1")
 						.paymentKey(UUID.randomUUID().toString())
 						.amount(chargeAmount)
 						.build();
