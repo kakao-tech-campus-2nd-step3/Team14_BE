@@ -1,6 +1,8 @@
 package com.ordertogether.team14_be.payment.persistence.repository;
 
 import com.ordertogether.team14_be.payment.domain.PaymentOrder;
+import com.ordertogether.team14_be.payment.domain.PaymentStatus;
+import com.ordertogether.team14_be.payment.web.dto.PaymentHistory;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -22,4 +24,6 @@ public interface PaymentOrderRepository {
 	 * @return 총 결제 금액
 	 */
 	BigDecimal getPaymentTotalAmount(String orderId);
+
+	List<PaymentHistory> getChargeHistory(Long memberId, PaymentStatus paymentStatus);
 }

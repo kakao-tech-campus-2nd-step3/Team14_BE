@@ -6,10 +6,13 @@ import com.ordertogether.team14_be.spot.dto.controllerdto.SpotDetailResponse;
 import com.ordertogether.team14_be.spot.dto.controllerdto.SpotViewedResponse;
 import com.ordertogether.team14_be.spot.dto.servicedto.SpotDto;
 import com.ordertogether.team14_be.spot.entity.Spot;
+import com.ordertogether.team14_be.spot.exception.NotSpotMasterException;
 import com.ordertogether.team14_be.spot.mapper.SpotMapper;
 import com.ordertogether.team14_be.spot.repository.SpotRepository;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +32,14 @@ public class SpotService {
 
 	@Transactional
 	public SpotCreationResponse createSpot(SpotDto spotDto) {
-		BigDecimal lat = spotDto.getLat();
-		BigDecimal lng = spotDto.getLng();
-		GeoHash geoHash = GeoHash.withCharacterPrecision(lat.doubleValue(), lng.doubleValue(), 12);
+		GeoHash geoHash =
+				GeoHash.withCharacterPrecision(
+						spotDto.getLat().doubleValue(), spotDto.getLng().doubleValue(), 12);
 		spotDto.setGeoHash(geoHash.toBase32());
+		spotDto.setCreatedAt(LocalDateTime.now());
+		spotDto.setCreatedBy(spotDto.getId());
+		spotDto.setModifiedAt(LocalDateTime.now());
+		spotDto.setModifiedBy(spotDto.getModifiedBy());
 		Spot spot = SpotMapper.INSTANCE.toEntity(spotDto, new Spot());
 		return SpotMapper.INSTANCE.toSpotCreationResponse(spotRepository.save(spot));
 	}
@@ -58,6 +65,10 @@ public class SpotService {
 
 	@Transactional
 	public SpotDto updateSpot(SpotDto spotDto) {
+		if (!Objects.equals(spotDto.getId(), spotDto.getCreatedBy())) {
+			throw new NotSpotMasterException("작성자만 수정할 수 있습니다.");
+		}
+		spotDto.setModifiedAt(LocalDateTime.now());
 		Spot spot =
 				SpotMapper.INSTANCE.toEntity(
 						spotDto,
@@ -68,6 +79,11 @@ public class SpotService {
 
 	@Transactional
 	public void deleteSpot(Long id) {
+		// id가 createdBy와 일치하는지 검증 후 delete
+		SpotDto spotDto = spotRepository.findByIdAndIsDeletedFalse(id);
+		if (!Objects.equals(spotDto.getCreatedBy(), id)) {
+			throw new IllegalArgumentException("방장이 아닌 사람은 삭제할 수 없습니다.");
+		}
 		spotRepository.delete(id);
 	}
 }

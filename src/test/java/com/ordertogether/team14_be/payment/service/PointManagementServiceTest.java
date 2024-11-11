@@ -27,8 +27,6 @@ class PointManagementServiceTest {
 	@BeforeEach
 	void setUp() {
 		paymentDatabaseHelper.clean();
-
-		paymentDatabaseHelper.setOrderId("test-order-id");
 		paymentDatabaseHelper.saveTestData();
 	}
 
@@ -43,12 +41,12 @@ class PointManagementServiceTest {
 						.getPoint();
 		Long chargeAmount =
 				paymentEventRepository
-						.findByOrderId("test-order-id")
+						.findByOrderId("test-order-id-1")
 						.orElseThrow(() -> new NoSuchElementException("PaymentEvent not found"))
 						.totalAmount();
 
 		// when
-		pointManagementService.increasePoint("test-order-id");
+		pointManagementService.increasePoint("test-order-id-1");
 
 		// then
 		int afterPoint =

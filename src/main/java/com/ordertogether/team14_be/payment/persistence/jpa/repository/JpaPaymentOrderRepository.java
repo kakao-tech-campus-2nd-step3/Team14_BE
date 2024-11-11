@@ -1,11 +1,13 @@
 package com.ordertogether.team14_be.payment.persistence.jpa.repository;
 
 import com.ordertogether.team14_be.payment.domain.PaymentOrder;
+import com.ordertogether.team14_be.payment.domain.PaymentStatus;
 import com.ordertogether.team14_be.payment.persistence.jpa.entity.PaymentOrderEntity;
 import com.ordertogether.team14_be.payment.persistence.jpa.entity.ProductEntity;
 import com.ordertogether.team14_be.payment.persistence.jpa.mapper.PaymentOrderMapper;
 import com.ordertogether.team14_be.payment.persistence.jpa.mapper.ProductMapper;
 import com.ordertogether.team14_be.payment.persistence.repository.PaymentOrderRepository;
+import com.ordertogether.team14_be.payment.web.dto.PaymentHistory;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -72,6 +74,11 @@ public class JpaPaymentOrderRepository implements PaymentOrderRepository {
 				.getPaymentTotalAmount(orderId)
 				.orElseThrow(
 						() -> new NoSuchElementException("주문 번호: %s 에 해당하는 주문이 존재하지 않습니다.".formatted(orderId)));
+	}
+
+	@Override
+	public List<PaymentHistory> getChargeHistory(Long memberId, PaymentStatus paymentStatus) {
+		return simpleJpaPaymentOrderRepository.getChargeHistory(memberId, paymentStatus);
 	}
 
 	private ProductEntity getProductEntity(PaymentOrder paymentOrder) {
