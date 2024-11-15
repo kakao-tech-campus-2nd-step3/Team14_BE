@@ -1,11 +1,10 @@
 package com.ordertogether.team14_be.member.application.service;
 
-import com.ordertogether.team14_be.auth.JwtUtil;
+import com.ordertogether.team14_be.auth.persistence.JwtUtil;
 import com.ordertogether.team14_be.member.application.dto.MemberInfoResponse;
 import com.ordertogether.team14_be.member.application.exception.NotFoundMember;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
 import com.ordertogether.team14_be.member.persistence.entity.Member;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ public class MemberService {
 		return memberRepository
 				.findByEmail(email)
 				.map(Member::getId)
-				.orElseThrow(() -> new NoSuchElementException("Member with email " + email + " not found"));
+				.orElseThrow(() -> new NotFoundMember());
 	}
 
 	@Transactional(readOnly = true)

@@ -5,11 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.ordertogether.team14_be.helper.PaymentDatabaseHelper;
-import com.ordertogether.team14_be.payment.domain.Product;
-import com.ordertogether.team14_be.payment.persistence.repository.ProductRepository;
 import com.ordertogether.team14_be.payment.web.request.PaymentPrepareRequest;
 import com.ordertogether.team14_be.payment.web.response.PaymentPrepareResponse;
-import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,19 +20,12 @@ import org.springframework.test.context.ActiveProfiles;
 class PaymentPreparationServiceTest {
 
 	@Autowired private PaymentPreparationService paymentPreparationService;
-	@Autowired private ProductRepository productRepository;
-
 	@Autowired private PaymentDatabaseHelper paymentDatabaseHelper;
 
 	@BeforeEach
 	void setup() {
 		paymentDatabaseHelper.clean();
-
-		productRepository.saveAll(
-				List.of(
-						Product.builder().id(1L).name("Product 1").price(BigDecimal.valueOf(10000)).build(),
-						Product.builder().id(2L).name("Product 2").price(BigDecimal.valueOf(20000)).build(),
-						Product.builder().id(3L).name("Product 3").price(BigDecimal.valueOf(30000)).build()));
+		paymentDatabaseHelper.saveTestData();
 	}
 
 	@Test

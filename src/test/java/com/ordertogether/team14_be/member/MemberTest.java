@@ -26,7 +26,7 @@ class MemberTest {
 	@Test
 	@DisplayName("회원 저장 테스트")
 	void saveMember() {
-		Member expected = new Member("email1", "phone1", "deliveryName1");
+		Member expected = new Member("email1", 0, "phone1", "deliveryName1", "KAKAO");
 		memberService.registerMember(expected);
 		Member actual = memberRepository.findById(expected.getId()).get();
 
@@ -40,7 +40,7 @@ class MemberTest {
 	@DisplayName("회원 수정 테스트")
 	void modifyMember() {
 		// given
-		Member expected = new Member("email1", "phone1", "deliveryName1");
+		Member expected = new Member("email1", 0, "phone1", "deliveryName1", "KAKAO");
 		memberRepository.save(expected);
 
 		// when
@@ -59,7 +59,7 @@ class MemberTest {
 	@DisplayName("회원 조회 테스트")
 	void getMember() {
 		// given
-		Member expected = new Member("email1", "phone1", "deliveryName1");
+		Member expected = new Member("email1", 0, "phone1", "deliveryName1", "KAKAO");
 		memberRepository.save(expected);
 
 		// when
@@ -78,7 +78,7 @@ class MemberTest {
 	@DisplayName("회원 삭제 테스트")
 	void deleteMember() {
 		// given
-		Member expected = new Member("email1", "phone1", "deliveryName1");
+		Member expected = new Member("email1", 0, "phone1", "deliveryName1", "KAKAO");
 		memberRepository.save(expected);
 
 		// when

@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Member {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -30,6 +29,10 @@ public class Member {
 
 	protected Member() {}
 
+	public Member(String email) {
+		this.email = email;
+	}
+
 	public Member(
 			Long id, String email, int point, String phoneNumber, String deliveryName, String platform) {
 		this.id = id;
@@ -46,12 +49,6 @@ public class Member {
 		this.phoneNumber = phoneNumber;
 		this.deliveryName = deliveryName;
 		this.platform = platform;
-	}
-
-	public Member(String email, String phoneNumber, String deliveryName) {
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.deliveryName = deliveryName;
 	}
 
 	public Long getId() {
@@ -85,6 +82,15 @@ public class Member {
 
 	public Integer increasePoint(int point) {
 		this.point += point;
+		return this.point;
+	}
+
+	public Integer decreasePoint(int point) {
+		if (this.point < point) {
+			throw new IllegalArgumentException(
+					"보유한 포인트가 부족합니다. [잔액 : %s, 요청량 : %s]".formatted(this.point, point));
+		}
+		this.point -= point;
 		return this.point;
 	}
 }

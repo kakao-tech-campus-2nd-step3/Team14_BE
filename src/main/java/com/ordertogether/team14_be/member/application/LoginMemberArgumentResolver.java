@@ -1,6 +1,6 @@
 package com.ordertogether.team14_be.member.application;
 
-import com.ordertogether.team14_be.auth.JwtUtil;
+import com.ordertogether.team14_be.auth.persistence.JwtUtil;
 import com.ordertogether.team14_be.member.application.service.MemberService;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
 import com.ordertogether.team14_be.member.presentation.LoginMember;

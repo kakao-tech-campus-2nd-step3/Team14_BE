@@ -1,6 +1,7 @@
 package com.ordertogether.team14_be.payment.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.ordertogether.team14_be.helper.PaymentDatabaseHelper;
 import com.ordertogether.team14_be.member.persistence.MemberRepository;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
+@DisplayName("포인트 관리 서비스는")
 @ActiveProfiles(profiles = "test")
 class PointManagementServiceTest {
 
@@ -55,5 +57,45 @@ class PointManagementServiceTest {
 						.orElseThrow(() -> new NoSuchElementException("Member not found"))
 						.getPoint();
 		assertThat(afterPoint).isEqualTo(beforePoint + chargeAmount);
+	}
+
+	@Test
+	@DisplayName("요청 포인트가 보유 포인트 보다 작은 경우 차감에 성공한다.")
+	void shouldDecreasePointWhenNormallyRequest() {
+		// given
+		int beforePoint =
+				memberRepository
+						.findById(1L)
+						.orElseThrow(() -> new NoSuchElementException("Member not found"))
+						.getPoint();
+		int decreasePoint = 1000;
+
+		// when
+		pointManagementService.decreasePoint(1L, decreasePoint);
+
+		// then
+		int afterPoint =
+				memberRepository
+						.findById(1L)
+						.orElseThrow(() -> new NoSuchElementException("Member not found"))
+						.getPoint();
+		assertThat(afterPoint).isEqualTo(beforePoint - decreasePoint);
+	}
+
+	@Test
+	@DisplayName("요청 포인트가 보유 포인트 보다 큰 경우 예외를 발생시킨다.")
+	void shouldThrowExceptionWhenNotEnoughRemainingPoint() {
+		// given
+		int remainingPoint =
+				memberRepository
+						.findById(1L)
+						.orElseThrow(() -> new NoSuchElementException("Member not found"))
+						.getPoint();
+		int decreasePoint = remainingPoint + 1000;
+
+		// when
+		// then
+		assertThatThrownBy(() -> pointManagementService.decreasePoint(1L, decreasePoint))
+				.isInstanceOf(IllegalArgumentException.class);
 	}
 }

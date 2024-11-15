@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.time.LocalTime;
 
 public record SpotCreationRequest(
-		Long id,
 		BigDecimal lat,
 		BigDecimal lng,
 		@NotNull(message = "가게 이름을 입력해주세요") String storeName,

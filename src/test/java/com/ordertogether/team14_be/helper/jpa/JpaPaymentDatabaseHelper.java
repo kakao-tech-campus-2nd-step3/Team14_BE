@@ -13,10 +13,9 @@ import com.ordertogether.team14_be.payment.persistence.repository.ProductReposit
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+// @Component
 @RequiredArgsConstructor
 public class JpaPaymentDatabaseHelper implements PaymentDatabaseHelper {
 

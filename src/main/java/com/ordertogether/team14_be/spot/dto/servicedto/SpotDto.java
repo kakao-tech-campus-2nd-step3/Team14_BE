@@ -11,6 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
+@ToString
 public class SpotDto {
 	private Long id;
 
@@ -20,17 +22,17 @@ public class SpotDto {
 	@Column(precision = 11, scale = 8)
 	private BigDecimal lng;
 
-	@Setter private Category category;
+	private Long memberId;
+	private Category category;
 	private String storeName;
 	private int minimumOrderAmount;
 	private String togetherOrderLink;
 	private String pickUpLocation;
-	private String deliveryStatus;
 	private LocalTime deadlineTime;
-	@Setter private String geoHash;
+	private String geoHash;
 	private boolean isDeleted;
-	@Setter private LocalDateTime createdAt;
-	@Setter private LocalDateTime modifiedAt;
-	@Setter private Long createdBy;
-	@Setter private Long modifiedBy;
+	private LocalDateTime createdAt;
+	private LocalDateTime modifiedAt;
+	private Long createdBy;
+	private Long modifiedBy;
 }

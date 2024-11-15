@@ -1,4 +1,3 @@
-/*
 package com.ordertogether.team14_be.payment.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -83,6 +82,3 @@ class PaymentValidationServiceTest {
 				.isInstanceOf(NoSuchElementException.class);
 	}
 }
-
-
- */
