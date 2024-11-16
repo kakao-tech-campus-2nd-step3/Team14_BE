@@ -40,7 +40,7 @@ public class AuthController {
 	}
 
 	@GetMapping("/login")
-	public ResponseEntity<ApiResponse<TokenDto>> getToken(
+	public ResponseEntity<ApiResponse<?>> getToken(
 			@RequestHeader("Authorization") String authorizationHeader) {
 		String authorizationCode = authorizationHeader.replace("Bearer ", "");
 		log.info("인가 코드: {}", authorizationCode);
@@ -70,10 +70,11 @@ public class AuthController {
 		} else {
 			String redirectUrl = redirectPage + userKakaoEmail;
 			log.info("리다이렉트: {}", redirectUrl);
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("Location", redirectUrl); // 리디렉션 URL 설정
-			// 302 상태 코드와 함께 Location 헤더를 설정하여 리디렉션
-			return new ResponseEntity<>(headers, HttpStatus.FOUND);
+			// 리다이렉션 URL을 JSON으로 반환
+			String jsonResponse = String.format("{\"redirectURL\": \"%s\"}", redirectUrl);
+			// 302 상태 코드와 함께 JSON 응답 본문 반환
+			return ResponseEntity.status(HttpStatus.FOUND)
+					.body(ApiResponse.with(HttpStatus.FOUND, "회원가입 필요", jsonResponse));
 		}
 	}
 
