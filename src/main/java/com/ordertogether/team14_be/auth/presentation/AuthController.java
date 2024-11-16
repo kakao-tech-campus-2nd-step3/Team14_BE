@@ -9,6 +9,7 @@ import com.ordertogether.team14_be.member.application.service.MemberService;
 import com.ordertogether.team14_be.member.persistence.entity.Member;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.util.Map;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -73,10 +74,8 @@ public class AuthController {
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Location", redirectUrl);
 
-			// 302 상태 코드와 함께 리디렉션 URL을 Location 헤더로 설정
-			return ResponseEntity.status(HttpStatus.FOUND) // 302 상태 코드
-					.headers(headers) // Location 헤더에 리디렉션 URL 설정
-					.build(); // 본문은 비우기
+			return ResponseEntity.status(HttpStatus.NOT_FOUND) // 404 상태 코드
+					.body(Map.of("redirectURL", redirectUrl)); // 리디렉션 URL을 본문에 포함
 		}
 	}
 
