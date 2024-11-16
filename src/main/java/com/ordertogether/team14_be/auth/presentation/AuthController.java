@@ -9,7 +9,6 @@ import com.ordertogether.team14_be.member.application.service.MemberService;
 import com.ordertogether.team14_be.member.persistence.entity.Member;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import java.io.IOException;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,10 +16,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/auth")
 @Slf4j
 public class AuthController {
@@ -43,8 +41,7 @@ public class AuthController {
 
 	@GetMapping("/login")
 	public ResponseEntity<ApiResponse<TokenDto>> getToken(
-			@RequestHeader("Authorization") String authorizationHeader,
-			HttpServletResponse httpServletResponse) {
+			@RequestHeader("Authorization") String authorizationHeader) {
 		String authorizationCode = authorizationHeader.replace("Bearer ", "");
 		log.info("인가 코드: {}", authorizationCode);
 		String userKakaoEmail = kakaoAuthService.getKakaoUserEmail(authorizationCode);
@@ -73,13 +70,10 @@ public class AuthController {
 		} else {
 			String redirectUrl = redirectPage + userKakaoEmail;
 			log.info("리다이렉트: {}", redirectUrl);
-			try {
-				httpServletResponse.sendRedirect(redirectUrl);
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
-			}
-			return ResponseEntity.status(HttpStatus.FOUND)
-					.body(ApiResponse.with(HttpStatus.FOUND, "리다이렉트", null));
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Location", redirectUrl); // 리디렉션 URL 설정
+			// 302 상태 코드와 함께 Location 헤더를 설정하여 리디렉션
+			return new ResponseEntity<>(headers, HttpStatus.FOUND);
 		}
 	}
 
