@@ -40,8 +40,7 @@ public class AuthController {
 	}
 
 	@GetMapping("/login")
-	public ResponseEntity<ApiResponse<?>> getToken(
-			@RequestHeader("Authorization") String authorizationHeader) {
+	public ResponseEntity<?> getToken(@RequestHeader("Authorization") String authorizationHeader) {
 		String authorizationCode = authorizationHeader.replace("Bearer ", "");
 		log.info("인가 코드: {}", authorizationCode);
 		String userKakaoEmail = kakaoAuthService.getKakaoUserEmail(authorizationCode);
@@ -73,8 +72,7 @@ public class AuthController {
 			// 리다이렉션 URL을 JSON으로 반환
 			String jsonResponse = String.format("{\"redirectURL\": \"%s\"}", redirectUrl);
 			// 302 상태 코드와 함께 JSON 응답 본문 반환
-			return ResponseEntity.status(HttpStatus.FOUND)
-					.body(ApiResponse.with(HttpStatus.FOUND, "회원가입 필요", jsonResponse));
+			return ResponseEntity.status(HttpStatus.FOUND).body(jsonResponse);
 		}
 	}
 
