@@ -9,6 +9,7 @@ import com.ordertogether.team14_be.member.application.service.MemberService;
 import com.ordertogether.team14_be.member.persistence.entity.Member;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.util.Map;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,10 +70,8 @@ public class AuthController {
 		} else {
 			String redirectUrl = redirectPage + userKakaoEmail;
 			log.info("리다이렉트: {}", redirectUrl);
-			// 리다이렉션 URL을 JSON으로 반환
-			String jsonResponse = String.format("{\"redirectURL\": \"%s\"}", redirectUrl);
 			// 302 상태 코드와 함께 JSON 응답 본문 반환
-			return ResponseEntity.status(HttpStatus.FOUND).body(jsonResponse);
+			return ResponseEntity.status(HttpStatus.FOUND).body(Map.of("redirectURL", redirectUrl));
 		}
 	}
 
