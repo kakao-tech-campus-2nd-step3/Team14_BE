@@ -16,7 +16,8 @@
 
 ## 배포 링크
 
-✅FE: https://team14-fe.vercel.app/  
+✅FE: [https://team14-fe.vercel.app/  ](https://team14-fe-livid.vercel.app/)
+
 ✅BE: https://order-together.duckdns.org/api/v1
 
 ## 주요 기능
@@ -62,6 +63,9 @@
 
 ![image](https://github.com/user-attachments/assets/59b8b750-ceb3-4484-a538-acd53d7fc370)
 
+## 테스트 계정
+* ID : ordertogether24@gmail.com
+* PW : team14!!
 
 ## API 명세서
 
